@@ -1,0 +1,11 @@
+{
+  "name": "memento",
+  "version": "0.1.0",
+  "description": "Persistent project memos in .memento/ so agents remember across sessions.",
+  "author": {
+    "name": "Frank Herchet",
+    "url": "https://github.com/frankherchet"
+  },
+  "repository": "https://github.com/frankherchet/skills",
+  "keywords": ["memory", "context", "notes", "sessions"]
+}

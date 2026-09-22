@@ -1,0 +1,21 @@
+{
+  "name": "memento",
+  "version": "0.1.0",
+  "description": "Persistent project memos in .memento/ so agents remember across sessions.",
+  "author": {
+    "name": "Frank Herchet",
+    "url": "https://github.com/frankherchet"
+  },
+  "repository": "https://github.com/frankherchet/skills",
+  "keywords": ["memory", "context", "notes", "sessions"],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "Memento",
+    "shortDescription": "Project memos that survive session boundaries",
+    "longDescription": "Loads .memento/INDEX.md at session start and teaches the agent to keep short, verified memos for anything worth remembering across sessions.",
+    "developerName": "Frank Herchet",
+    "category": "Productivity",
+    "capabilities": ["Instructions", "Lifecycle hooks"]
+  }
+}
