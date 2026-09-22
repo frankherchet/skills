@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "frank-skills",
+  "description": "Frank Herchet's skills, plugins and agents for Claude Code, Codex and Copilot.",
+  "owner": {
+    "name": "Frank Herchet",
+    "url": "https://github.com/frankherchet"
+  },
+  "plugins": [
+    {
+      "name": "memento",
+      "description": "Persistent project memos in .memento/ so agents remember across sessions.",
+      "source": "./plugins/memento",
+      "category": "productivity"
+    }
+  ]
+}
