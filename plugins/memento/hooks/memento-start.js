@@ -7,7 +7,8 @@ const fs = require('fs');
 const path = require('path');
 
 const MAX_LINES = 150;
-const MAX_BYTES = 8 * 1024;
+// Codex caps additionalContext at ~2,500 tokens by default; stay well below.
+const MAX_BYTES = 6 * 1024;
 
 const isCopilot = Boolean(process.env.COPILOT_PLUGIN_DATA) ||
   /[\\/]\.vscode[\\/].*agent-plugins/i.test(process.env.CLAUDE_PLUGIN_ROOT || '');
@@ -63,6 +64,7 @@ function buildContext(root) {
       'MEMENTO is active in this project (memento skill). There are no memos yet.',
       'When you learn something that a future session must know and that is not already in AGENTS.md, CLAUDE.md, README, code or git history,',
       'create a memo under .memento/ as described in the memento skill. Load that skill before writing your first memo.',
+      'Write a memo as soon as you learn something, not at the end: compaction and session end give you no chance to.',
     ].join('\n');
   }
   const index = fs.readFileSync(indexPath, 'utf8').trim();
@@ -74,6 +76,7 @@ function buildContext(root) {
     '',
     'Memos are clues, not truth: verify files, functions and flags they name before acting on them.',
     'Record new cross-session knowledge as memos; update or delete memos that turn out stale or wrong.',
+    'Write a memo as soon as you learn something, not at the end: compaction and session end give you no chance to.',
     'Load the memento skill before writing or editing memos.',
   ].join('\n');
 }

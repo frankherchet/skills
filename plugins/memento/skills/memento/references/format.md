@@ -30,7 +30,7 @@ Commit `.memento/` together with the change it relates to where possible.
 - [Finish CSV export](finish-csv-export.md) — todo — header row done, streaming missing
 ```
 
-Keep each line under ~120 characters. The index is capped when injected, at about 150 lines or 8 KB. Merge or prune memos long before that.
+Keep each line under ~120 characters. The index is capped when injected, at about 150 lines or 6 KB. Merge or prune memos long before that.
 
 ## Examples
 

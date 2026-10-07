@@ -36,6 +36,7 @@ for (const host of Object.keys(HOSTS)) {
     if (host === 'copilot') assert.ok(!out.hookSpecificOutput);
     else assert.strictEqual(out.hookSpecificOutput.hookEventName, 'SessionStart');
     assert.match(contextOf(host, out), /no memos yet/);
+    assert.match(contextOf(host, out), /as soon as you learn/);
   });
 
   test(`${host}: INDEX.md is injected, found from subdirectory via payload cwd`, () => {
@@ -46,6 +47,7 @@ for (const host of Object.keys(HOSTS)) {
     fs.mkdirSync(sub, { recursive: true });
     const out = run(host, { cwd: os.tmpdir(), input: JSON.stringify({ cwd: sub }) });
     assert.match(contextOf(host, out), /\[Foo\]\(foo\.md\) — gotcha — bar baz/);
+    assert.match(contextOf(host, out), /as soon as you learn/);
   });
 }
 
@@ -57,7 +59,7 @@ test('large index is truncated', () => {
   const ctx = contextOf('claude', run('claude', { cwd: dir }));
   assert.match(ctx, /index truncated/);
   assert.ok(!ctx.includes('Memo 499'));
-  assert.ok(Buffer.byteLength(ctx) < 10 * 1024);
+  assert.ok(Buffer.byteLength(ctx) < 7 * 1024);
 });
 
 test('garbage stdin and missing dirs never fail', () => {
