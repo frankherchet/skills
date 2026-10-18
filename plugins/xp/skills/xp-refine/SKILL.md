@@ -28,6 +28,7 @@ Read the `## XP Workflow` section in `AGENTS.md` (Definition of Ready, requireme
    - Every acceptance criterion gets an ID `REQ-NNN.N` and is testable: concrete input, observable outcome, no "fast" or "user-friendly" without a number.
    - Write criteria for the main success path and for every failure condition that survived step 2.
    - Final check: success satisfies every interest from step 1, and every failure protects them.
+   - Then ask of every criterion: does it need to exist? Drop the ones that serve no interest from step 1. Every criterion is code, tests and maintenance later.
    - Set `status: accepted` when the user agrees (interview mode) or leave it at `draft` (autopilot mode).
    - Keep the file valid against its schema. Store no progress, issue numbers or test names in it.
 4. **Link.** Put `Requirements: REQ-NNN.1, REQ-NNN.2` into the issue body.

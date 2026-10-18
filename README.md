@@ -74,9 +74,9 @@ xp-setup ─▶ xp-issues ─▶ xp-refine ─▶ xp-implement ─┐
 | `xp-setup` | Writes the `## XP Workflow` section to AGENTS.md (labels, DoR, DoD, human gates), creates GitHub labels, adds `docs/requirements.yaml` and its schema |
 | `xp-issues` | Milestones, epics, issues and bugs, sized by goal level; triage; status; picks the next ready ticket and routes it (a red default branch always comes first) |
 | `xp-refine` | Interview or autopilot refinement until the Definition of Ready holds: interests, failures first, then criteria; actor-goal lists for epics; spikes end in an ADR |
-| `xp-implement` | Failing acceptance test first, then red-green-refactor inside it, per acceptance criterion; tests carry the criterion ID (`REQ-012.1`) |
+| `xp-implement` | Failing acceptance test first, then red-green-refactor inside it, per acceptance criterion; green climbs the ponytail ladder (reuse, stdlib, native, one line) without cutting guardrails; tests carry the criterion ID (`REQ-012.1`) |
 | `xp-bugfix` | Understand, reproduce with a failing test, fix the root cause, five whys up to the process gap |
-| `xp-ship` | Definition of Done, traceability and requirement-ID collision checks, PR, closing issues, milestone release notes |
+| `xp-ship` | Definition of Done, traceability, review beyond the diff (callers of changed code), overbuilding and requirement-ID collision checks, PR, closing issues, milestone release notes |
 | `xp-retro` | Evidence-based retro; improvements become AGENTS.md edits, memento memos, issues, or issues against these skills |
 
 Requirements live in `docs/requirements.yaml` (JSON Schema validated), so scripts can read them. Progress is never stored there: issues link requirements via a `Requirements:` line, and tests name the criterion ID.
