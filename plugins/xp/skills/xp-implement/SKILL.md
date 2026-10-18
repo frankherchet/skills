@@ -1,6 +1,9 @@
 ---
 name: xp-implement
 description: Build a ready feature issue test-first, one criterion at a time. An acceptance test per criterion comes first, then small red-green-refactor steps inside it, preferring reuse over new code; every test names its criterion ID. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Comes after xp-issues; hands over to xp-ship.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-implement

@@ -1,6 +1,9 @@
 ---
 name: memento
 description: Keep short project memos in .memento/ so knowledge survives across agent sessions. Use at the start of a session in a project that has a .memento/ directory, whenever the user says "remember", "merk dir", "note this", or "for next time", and proactively whenever you make a decision, hit a gotcha, leave work unfinished, or learn a project preference that a future session would need and that is not already in AGENTS.md, CLAUDE.md, README, code, or git history.
+metadata:
+  version: "0.1.0"
+  source: frankherchet/skills
 ---
 
 # memento

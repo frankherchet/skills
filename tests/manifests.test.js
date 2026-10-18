@@ -27,7 +27,7 @@ for (const plugin of plugins) {
     }
   });
 
-  test(`${plugin}: every skill has name and description frontmatter`, () => {
+  test(`${plugin}: every skill has name, description and the plugin version`, () => {
     const dir = path.join(ROOT, 'plugins', plugin, 'skills');
     for (const skill of fs.readdirSync(dir)) {
       const md = read(`plugins/${plugin}/skills/${skill}/SKILL.md`);
@@ -35,6 +35,8 @@ for (const plugin of plugins) {
       assert.ok(fm, `${skill}: no frontmatter`);
       assert.match(fm[1], new RegExp(`^name: ${skill}$`, 'm'), `${skill}: name must match directory`);
       assert.match(fm[1], /^description: \S/m, `${skill}: description missing`);
+      const version = json(`plugins/${plugin}/.claude-plugin/plugin.json`).version;
+      assert.match(fm[1], new RegExp(`^  version: "${version.replace(/\./g, '\\.')}"$`, 'm'), `${skill}: metadata.version must be ${version}`);
     }
   });
 }
