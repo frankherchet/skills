@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./requirements.schema.json
+version: 1
+requirements:
+  - id: REQ-001
+    title: Login with an e-mail link
+    type: functional
+    priority: must
+    status: accepted
+    source: "#4"
+    description: >
+      A user signs in without a password by clicking a one-time link sent by e-mail.
+    acceptance:
+      - id: REQ-001.1
+        text: The link expires after 15 minutes.
+      - id: REQ-001.2
+        text: The link works only once.
+  - id: REQ-002
+    title: Sign-in responds within 300 ms
+    type: non-functional
+    priority: should
+    status: draft
+    acceptance:
+      - id: REQ-002.1
+        text: p95 latency of the sign-in endpoint is below 300 ms in the load test.
+    depends_on: [REQ-001]

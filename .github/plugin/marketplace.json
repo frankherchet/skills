@@ -13,6 +13,13 @@
       "category": "productivity",
       "skills": "skills/",
       "hooks": "hooks/copilot-hooks.json"
+    },
+    {
+      "name": "xp",
+      "description": "Issue-driven XP workflow: GitHub Issues as planner, refinement, TDD, bugfix, ship and retro with requirements traceability.",
+      "source": "./plugins/xp",
+      "category": "productivity",
+      "skills": "skills/"
     }
   ]
 }
