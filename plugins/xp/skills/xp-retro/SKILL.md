@@ -14,6 +14,7 @@ Base the retro on facts, not impressions. For the scope (a milestone, an epic or
 - PRs: review rounds, requested changes, and the time from opening to merge (`gh pr list --state merged --search "milestone:\"<title>\""`)
 - `needs-human` episodes: what blocked work and for how long
 - Reopened issues, bugs found after the merge, scope changes during implementation
+- The five-whys comments on bug issues (from `xp-bugfix`) and the process changes proposed there
 - The test suite: flaky or slow tests, and criteria that were hard to test
 - This session and earlier ones: corrections the user had to make and steps that had to be repeated
 

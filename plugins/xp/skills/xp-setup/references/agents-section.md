@@ -11,6 +11,8 @@ This project uses the issue-driven XP workflow (xp-* skills). GitHub Issues are 
 - Remote: `<owner/repo>`
 - Default branch: `<main>`
 - GitHub access: `gh` CLI; if it is unavailable, use the host's GitHub MCP tools.
+- Build and test: `<test command>` (target: under 10 minutes). CI: `<workflow file or "none">`.
+- Stop the line: if the default branch is red, fixing it comes before any other ticket.
 
 ### Issues
 - Milestone: a release or timebox (native GitHub milestone). Every epic belongs to exactly one milestone.

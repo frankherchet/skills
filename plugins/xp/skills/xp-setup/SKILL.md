@@ -13,6 +13,7 @@ Prepare a project so that every xp-* skill, in Claude Code, Codex and Copilot al
 - `CLAUDE.md` imports it: it contains `@AGENTS.md`. Create `CLAUDE.md` with that line if it does not exist.
 - The GitHub repo has every label from the section's label table.
 - `docs/requirements.yaml` and `docs/requirements.schema.json` exist (or the paths the user chose).
+- CI runs the test command on every push and PR (or the user declined it).
 - `docs/architecture.md` exists with at least a short overview, and `docs/adr/` exists.
 
 ## Steps
@@ -22,6 +23,7 @@ Prepare a project so that every xp-* skill, in Claude Code, Codex and Copilot al
    - remote and default branch
    - labels: the default table, or a mapping onto existing labels (brownfield: keep existing labels that mean the same thing and rename the convention instead of duplicating)
    - Definition of Ready and Definition of Done: start from the defaults in the template and add project-specific items
+   - build and CI: the command that builds and runs all tests, and whether CI runs it on every push. Time one run. If it takes longer than 10 minutes, say so and suggest speeding it up first, because every later skill relies on fast feedback. If there is no CI, offer a minimal workflow that runs the test command on push and PR.
    - extra human gates beyond the four fixed ones
    - architecture: a short overview (components, boundaries, key technologies). Draft it from the code if there is any.
    - requirements: the file location, and whether to import existing requirements (from a README, issues or docs) as `draft` entries

@@ -19,9 +19,10 @@ Read the `## XP Workflow` section in `AGENTS.md`. If it is missing, run `xp-setu
 4. **Fix.** Make the smallest change that removes the cause. Run the new test and then the whole suite.
 5. **Look for siblings.** Check whether the same mistake exists elsewhere (same pattern, copy-pasted code). Fix the siblings in this PR with their own tests, or file issues for them.
 6. **Commit.** `git commit -m "Fix <what> (Fixes #<n>[, REQ-NNN.N])"`.
+7. **Five whys, up to the process.** The code is fixed. Now ask why the bug could get in at all, and keep asking until you reach a gap in the process, not in the code. For example: no criterion covered this case → the DoR does not demand unhappy paths. Propose one concrete change that closes the gap: a DoR or DoD item, a lint rule, a missing test category, or an instruction in an xp-* skill. Do not apply process changes yourself. Record them as described under "Done".
 
 Steps 2 to 4 are the red-green part of TDD. The same rules as in `xp-implement` apply: no fix without a failing test first.
 
 ## Done
 
-Add a short comment on the issue stating the cause and the fix, then hand over to `xp-ship`.
+Add a short comment on the issue stating the cause, the fix and the five-whys chain with the proposed process change. `xp-retro` picks these comments up. Then hand over to `xp-ship`.

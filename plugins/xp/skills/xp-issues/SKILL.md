@@ -45,6 +45,7 @@ gh issue list --milestone "<title>" --state all --json number,title,state,labels
 
 ## Next: choose and route
 
+0. **Stop the line.** First check the default branch: `gh run list --branch <default> --limit 1` (or run the test command from AGENTS.md on it). If it is red, nothing else is next. Make sure a `type:bug` + `prio:p0` issue exists for it, and route that issue to `xp-bugfix`.
 1. List candidates: `gh issue list --label status:ready --json number,title,labels,milestone`. Exclude issues labeled `needs-human`.
 2. Pick by `prio:*` first, then by the earliest milestone, then by the lowest number. Bugs win ties.
 3. Route the pick:

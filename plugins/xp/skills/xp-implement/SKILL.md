@@ -1,6 +1,6 @@
 ---
 name: xp-implement
-description: Implement a ready GitHub issue with test-driven development (red, green, refactor), one acceptance criterion at a time, with every test named after its requirement ID for traceability. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Hands over to xp-ship when done.
+description: Implement a ready GitHub issue with test-driven development, one acceptance criterion at a time. A failing acceptance test comes first, then red-green-refactor unit tests inside it, with every test named after its requirement ID for traceability. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Hands over to xp-ship when done.
 ---
 
 # xp-implement
@@ -14,18 +14,23 @@ Build exactly what the issue asks for, test first.
 3. Make sure the issue is `status:in-progress` and assigned. Work on a branch: `git switch -c <n>-<short-slug>`.
 4. Run the full test suite once. If it is already red, report that before changing anything.
 
-## The loop
+## The double loop
 
-Repeat for every acceptance criterion `REQ-NNN.N` of the issue:
+Repeat for every acceptance criterion `REQ-NNN.N` of the issue.
 
-1. **Red.** Write one test for the criterion. Put the criterion ID in the test name, or in a comment directly above the test if the framework does not allow it in names:
+**Outer loop: the acceptance test defines done.**
+1. Write one acceptance test for the criterion, at the level a user or caller sees: an HTTP request, a CLI call, a public API, or a UI test if the project has them. Put the criterion ID in the test name, or in a comment directly above the test if the framework does not allow it in names:
    `test("REQ-012.1 link expires after 15 minutes", …)`
-   Run it and watch it fail for the right reason (an assertion fails, not an import or syntax error).
-2. **Green.** Write the simplest code that makes it pass. Run the whole suite.
-3. **Refactor.** Remove duplication and improve names while every test stays green. No new behavior in this step.
-4. **Commit.** `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`.
+2. Run it and watch it fail for the right reason (an assertion fails, not an import or syntax error). It stays red while the inner loop runs.
 
-Then move on to the next criterion.
+**Inner loop: red, green, refactor in small steps** until the acceptance test passes:
+1. **Red.** Write the smallest unit test for the next piece of behavior the acceptance test needs. Watch it fail.
+2. **Green.** Write the simplest code that makes it pass.
+3. **Refactor.** Remove duplication and improve names while every test stays green. No new behavior in this step.
+
+When the acceptance test passes, run the whole suite, then **commit**: `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`. Move on to the next criterion.
+
+If the criterion is small enough that the acceptance test is already a unit test, the two loops collapse into one.
 
 ## Rules
 
