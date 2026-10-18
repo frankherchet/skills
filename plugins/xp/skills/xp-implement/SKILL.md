@@ -1,60 +1,58 @@
 ---
 name: xp-implement
-description: Implement a ready GitHub issue with test-driven development, one acceptance criterion at a time. A failing acceptance test comes first, then red-green-refactor unit tests inside it, with every test named after its requirement ID for traceability. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Hands over to xp-ship when done.
+description: Build a ready feature issue test-first, one criterion at a time. An acceptance test per criterion comes first, then small red-green-refactor steps inside it, preferring reuse over new code; every test names its criterion ID. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Comes after xp-issues; hands over to xp-ship.
 ---
 
 # xp-implement
 
-Build exactly what the issue asks for, test first.
+Build exactly what the criteria ask for, test first, with as little new code as possible.
+
+**Loop:** setup → issues → refine → **implement** | bugfix → ship → retro
 
 ## Before you start
 
-1. Read the `## XP Workflow` section in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. Read the issue, its `Requirements:` line and those entries in the requirements YAML. If the issue is not `status:ready`, stop and suggest `xp-refine`.
-3. Make sure the issue is `status:in-progress` and assigned. Work on a branch: `git switch -c <n>-<short-slug>`.
-4. Run the full test suite once. If it is already red, report that before changing anything.
-5. Understand before you build: read the code paths the issue touches and follow one real request or call through them. Knowing where a change belongs matters more than how small it is.
+1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
+2. Read the issue, its `Requirements:` line and those criteria in the requirements file. If the issue is not `status:ready`, stop and propose `xp-refine`.
+3. Check that the issue is `status:in-progress` and assigned, and work on a branch: `git switch -c <n>-<short-slug>`.
+4. Run the full test suite. If it is already red, report that before you change anything.
+5. Read the code the issue touches and follow one real request or call through it. Knowing where a change belongs matters more than how small it is.
 
-## The double loop
+## Build one criterion at a time
 
-Repeat for every acceptance criterion `REQ-NNN.N` of the issue.
-
-**Outer loop: the acceptance test defines done.**
-1. Write one acceptance test for the criterion, at the level a user or caller sees: an HTTP request, a CLI call, a public API, or a UI test if the project has them. Put the criterion ID in the test name, or in a comment directly above the test if the framework does not allow it in names:
+**Outer loop: the acceptance test.** For the next criterion `REQ-NNN.N`:
+1. Write one test at the level a user or caller sees: an HTTP request, a CLI call, a public API, or a UI test if the project has them. The criterion ID goes into the test name, or into a comment right above it if names cannot hold it:
    `test("REQ-012.1 link expires after 15 minutes", …)`
-2. Run it and watch it fail for the right reason (an assertion fails, not an import or syntax error). It stays red while the inner loop runs.
+2. Run it and see it fail for the right reason: a failed assertion, not an import or syntax error. It stays red while the inner loop runs.
 
-**Inner loop: red, green, refactor in small steps** until the acceptance test passes:
-1. **Red.** Write the smallest unit test for the next piece of behavior the acceptance test needs. Watch it fail.
-2. **Green.** Make it pass with the simplest thing that could possibly work (see below).
-3. **Refactor.** Remove duplication and improve names while every test stays green. No new behavior in this step.
+**Inner loop: small steps** until the acceptance test passes:
+1. **Red.** Write the smallest unit test for the next bit of behavior. See it fail.
+2. **Green.** Make it pass with as little new code as possible (see "Reuse before you write").
+3. **Refactor.** Remove duplication and overbuilding, improve names, keep every test green. No new behavior.
 
-When the acceptance test passes, run the whole suite, then **commit**: `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`. Move on to the next criterion.
+When the acceptance test passes, run the full suite and commit: `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`. Then take the next criterion. If a criterion is so small that its acceptance test is already a unit test, the loops merge into one.
 
-If the criterion is small enough that the acceptance test is already a unit test, the two loops collapse into one.
+## Reuse before you write
 
-## Simplest thing that could possibly work
+Every new line has to be read, tested and maintained. Before writing code, go through these questions in order and stop at the first yes:
 
-New code is the most expensive way to make a test pass, because it has to be read, tested and maintained. Before writing it, check in this order and take the first option that works:
+1. **No criterion needs it?** Then it is out of scope; do not write it.
+2. **Does the project already have it?** Search for a function, type, component or convention and use it.
+3. **Do the language, runtime or platform provide it?** Standard library, framework, browser, OS or database features.
+4. **Does a dependency the project already declares provide it?** Use it. A new dependency needs a reason in the PR description.
+5. Otherwise write new code, only as much as the failing test demands.
 
-1. **Required?** Only acceptance criteria justify code. Anything else is out of scope (see Rules).
-2. **Already in the project?** Search for an existing function, type, component or convention and use it.
-3. **Built into the language, runtime or platform?** Standard library, framework features, browser, OS or database capabilities.
-4. **Covered by a dependency the project already declares?** Use it. Adding a new dependency needs a reason in the PR description.
-5. **None of the above:** write new code, only as much as the failing test demands.
+Overbuilding to remove when you refactor: interfaces or base classes with one implementation, settings nobody changes, code no test runs, files prepared for later issues.
 
-Overbuilding to remove in the refactor step: interfaces or base classes with a single implementation, settings nobody will change, code that no test exercises, and files prepared for future issues.
-
-**Simple is not careless.** These always stay in, even if they make the change bigger: checks on input that enters the system from outside, handling of errors that could lose or corrupt data, security, and accessibility. If a criterion seems to conflict with them, ask before you drop anything.
+**Small is not careless.** These always stay in, even if they make the change bigger: checks on input from outside the system, handling of errors that could lose or corrupt data, security, and accessibility. If a criterion seems to conflict with them, ask.
 
 ## Rules
 
-- No production code without a failing test that demands it.
-- One behavior per test. Test through public interfaces, not internals.
-- Do not build what no criterion asks for. If you find something missing, add a comment to the issue or create a new issue. Do not quietly extend the scope.
-- If a criterion turns out to be ambiguous or wrong, stop, comment on the issue, and add `needs-human` (or go back to `xp-refine`).
-- Update `docs/architecture.md` or write an ADR when the structure changes.
+- No production code without a failing test that asks for it.
+- One behavior per test; test through public interfaces.
+- Never widen the scope quietly. Missing behavior becomes an issue comment or a new issue.
+- An unclear or wrong criterion: stop, comment on the issue, add `needs-human`, or go back to `xp-refine`.
+- Structural changes update `docs/architecture.md` or get an ADR.
 
-## Done
+## Hand-over
 
-When every criterion of the issue has a passing test, hand over to `xp-ship`.
+End with the hand-over from `## XP Workflow` in AGENTS.md. **Next:** `xp-ship #<n>` once every criterion has a passing test.

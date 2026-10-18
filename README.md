@@ -63,23 +63,24 @@ This installs just the skills, without session-start hooks. memento still works:
 ## xp in short
 
 ```
-xp-setup ─▶ xp-issues ─▶ xp-refine ─▶ xp-implement ─┐
-               ▲  (next)        ▲                    ├─▶ xp-ship ─▶ xp-retro
-               │                └── spike / ADR       │
-               └──────────────── xp-bugfix ───────────┘
+xp-setup → xp-issues → xp-refine → xp-implement ─┐
+              ↑                    xp-bugfix ────┴→ xp-ship → xp-retro
+              └──────────────── next issue ─────────────────────┘
 ```
 
 | Skill | Job |
 |---|---|
-| `xp-setup` | Writes the `## XP Workflow` section to AGENTS.md (labels, DoR, DoD, human gates), creates GitHub labels, adds `docs/requirements.yaml` and its schema |
-| `xp-issues` | Milestones, epics, issues and bugs, sized by goal level; triage; status; picks the next ready ticket and routes it (a red default branch always comes first) |
-| `xp-refine` | Interview or autopilot refinement until the Definition of Ready holds: interests, failures first, then criteria; actor-goal lists for epics; spikes end in an ADR |
-| `xp-implement` | Failing acceptance test first, then red-green-refactor inside it, per acceptance criterion; green is the simplest thing that could possibly work (reuse before new code), without cutting safety; tests carry the criterion ID (`REQ-012.1`) |
-| `xp-bugfix` | Understand, reproduce with a failing test, fix the root cause, five whys up to the process gap |
-| `xp-ship` | Definition of Done, traceability, review beyond the diff (callers of changed code), simplicity and requirement-ID collision checks, PR, closing issues, milestone release notes |
-| `xp-retro` | Evidence-based retro; improvements become AGENTS.md edits, memento memos, issues, or issues against these skills |
+| `xp-setup` | Once per project: writes the `## XP Workflow` section into AGENTS.md (loop, terms, modes, hand-over, labels, Definition of Ready and Done, human gates), creates labels, adds the requirements file and its schema |
+| `xp-issues` | Plans milestones, epics and issues at the right goal level, triages, reports status, picks the next issue (a red default branch always comes first) |
+| `xp-refine` | Makes an issue ready: interests, failure conditions, then criteria; goal maps for epics; spikes that end in an ADR |
+| `xp-implement` | Builds a feature test-first: an acceptance test per criterion, small red-green-refactor steps inside, reuse before new code |
+| `xp-bugfix` | Reproduces a bug with a test, fixes the cause, looks for the same mistake elsewhere, names the process gap |
+| `xp-ship` | Checks tests, traceability, scope, the code around the diff, simplicity, ID collisions and Done; opens the PR; closes issues; writes release notes |
+| `xp-retro` | Evidence-based look back; up to three improvements become AGENTS.md rules, memos, issues, or issues against these skills |
 
-Requirements live in `docs/requirements.yaml` (JSON Schema validated), so scripts can read them. Progress is never stored there: issues link requirements via a `Requirements:` line, and tests name the criterion ID.
+Every skill reads the same `## XP Workflow` section, uses the same terms, and ends with the same hand-over (result, waiting on a human, next skill), so the loop can be followed from issue to issue.
+
+Requirements live in `docs/requirements.yaml` (JSON Schema validated), so scripts can read them. Progress is never stored there: issues link criteria with a `Requirements:` line, and tests name the criterion ID.
 
 ## Development
 
@@ -91,11 +92,11 @@ See [AGENTS.md](AGENTS.md) for repo conventions.
 
 ## Acknowledgements
 
-The xp plugin adapts ideas from, among others:
+The xp plugin is written from scratch. Some of its ideas were inspired by:
 
-- Kent Beck, Cynthia Andres: *Extreme Programming Explained* (stop the line, test-first, root-cause analysis)
-- Alistair Cockburn: *Writing Effective Use Cases* (stakeholder interests, failure-first extensions, goal levels)
-- [ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert (reuse before new code, reviewing beyond the diff)
+- Kent Beck, Cynthia Andres: *Extreme Programming Explained* (fixing the default branch first, test-first work, tracing bugs back to the process)
+- Alistair Cockburn: *Writing Effective Use Cases* (stakeholder interests, failure conditions before solutions, goal levels)
+- [ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert (reuse before new code, reviewing the code around a diff)
 
 ## License
 

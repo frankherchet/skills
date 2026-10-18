@@ -1,28 +1,31 @@
 ---
 name: xp-bugfix
-description: Fix a bug the disciplined way. Understand it, reproduce it with a failing test, find and fix the root cause, and prove it with the now passing test. Use when the user reports a bug, an error, a regression or broken behavior, says "fix #12" for a type:bug issue, or when xp-issues routes a bug. Hands over to xp-ship when done.
+description: Fix a bug so it stays fixed. Understand it, reproduce it with a failing test, fix the cause rather than the symptom, look for the same mistake elsewhere, and trace back to the gap in the process that let it in. Use when the user reports a bug, an error, a regression or broken behavior, says "fix #12" for a type:bug issue, or when xp-issues routes a bug or a red default branch. Comes after xp-issues; hands over to xp-ship.
 ---
 
 # xp-bugfix
 
-A bug is fixed when a test that failed because of it now passes, and the cause is gone, not just the symptom.
+A bug is fixed when a test that failed because of it passes, its cause is gone, and the process gap that let it in is named.
+
+**Loop:** setup → issues → refine → implement | **bugfix** → ship → retro
 
 ## Before you start
 
-Read the `## XP Workflow` section in `AGENTS.md`. If it is missing, run `xp-setup` first. If no issue exists for the bug yet, create one with `type:bug` (see `xp-issues`). Set it to `status:in-progress` and work on a branch: `git switch -c <n>-fix-<short-slug>`.
+1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
+2. If there is no issue yet, create a `type:bug` issue (`xp-issues`). Set it to `status:in-progress` and work on a branch: `git switch -c <n>-fix-<short-slug>`.
 
 ## Steps
 
-1. **Understand.** Read the report, the logs and the code path end to end. Write down expected versus actual behavior. If the expected behavior is unclear and no requirement specifies it, ask (or use `needs-human`) instead of guessing.
-2. **Reproduce with a test.** Write the smallest test that fails because of the bug, at the lowest level that still shows it. Name it after the affected criterion if there is one (`REQ-012.2 …`), otherwise after the issue (`#34 …`). Run it and confirm it fails for the reason in the report. If you cannot reproduce the bug, stop and report what you tried.
-3. **Find the root cause.** Ask why until you reach the cause, not the symptom. Search for every caller of the code you are going to change. If several callers are affected, fix the shared code once instead of patching each caller.
-4. **Fix.** Make the smallest change that removes the cause, using the "simplest thing that could possibly work" rules from `xp-implement`. Run the new test and then the whole suite.
-5. **Look for siblings.** Check whether the same mistake exists elsewhere (same pattern, copy-pasted code). Fix the siblings in this PR with their own tests, or file issues for them.
-6. **Commit.** `git commit -m "Fix <what> (Fixes #<n>[, REQ-NNN.N])"`.
-7. **Five whys, up to the process.** The code is fixed. Now ask why the bug could get in at all, and keep asking until you reach a gap in the process, not in the code. For example: no criterion covered this case → the DoR does not demand unhappy paths. Propose one concrete change that closes the gap: a DoR or DoD item, a lint rule, a missing test category, or an instruction in an xp-* skill. Do not apply process changes yourself. Record them as described under "Done".
+1. **Understand.** Read the report, the logs and the code path end to end. Write down expected and actual behavior. If the expected behavior is unclear and no criterion defines it, ask (or use `needs-human`) instead of guessing.
+2. **Reproduce.** Write the smallest test that fails because of the bug, on the lowest level that still shows it. Name it after the affected criterion (`REQ-012.2 …`) or, if there is none, after the issue (`#34 …`). Confirm it fails for the reported reason. If you cannot reproduce the bug, stop and report what you tried.
+3. **Find the cause.** Keep asking why until you reach the cause, not the symptom. Find every caller of the code you are about to change; if several are affected, fix the shared code once instead of each caller.
+4. **Fix.** The smallest change that removes the cause, following "Reuse before you write" in `xp-implement`. Run the new test, then the full suite.
+5. **Same mistake elsewhere?** Look for the same pattern or copied code. Fix those places in this PR with their own tests, or file issues for them.
+6. **Commit:** `git commit -m "Fix <what> (Fixes #<n>[, REQ-NNN.N])"`.
+7. **Process gap.** Ask why the bug could get in at all, and keep asking until the answer is a gap in how the team works, not in the code. Example: no criterion covered the case → the Definition of Ready does not ask for failure conditions. Propose one concrete change that closes the gap: a Definition of Ready or Done item, a lint rule, a missing kind of test, or an instruction in an xp-* skill. Do not make that change yourself; `xp-retro` decides.
 
-Steps 2 to 4 are the red-green part of TDD. The same rules as in `xp-implement` apply: no fix without a failing test first.
+Steps 2 to 4 follow the same test-first rule as `xp-implement`: no fix without a failing test.
 
-## Done
+## Hand-over
 
-Add a short comment on the issue stating the cause, the fix and the five-whys chain with the proposed process change. `xp-retro` picks these comments up. Then hand over to `xp-ship`.
+Comment on the issue: cause, fix, the why-chain and the proposed process change (`xp-retro` collects these). Then end with the hand-over from `## XP Workflow` in AGENTS.md. **Next:** `xp-ship #<n>`.

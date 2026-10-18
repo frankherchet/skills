@@ -1,53 +1,58 @@
 ---
 name: xp-refine
-description: Refine milestones, epics and issues until they meet the Definition of Ready, writing requirements and acceptance criteria into the project's requirements YAML. Works in interview mode (asks the user one question at a time) or autopilot mode (drafts from code and context, asks only what blocks). Also runs timeboxed spikes that end in an ADR. Use when the user says "refine", "groom the backlog", "make this ready", "write acceptance criteria", "spike", "investigate options", or when xp-issues routes an issue in status:refining or type:spike.
+description: Refine milestones, epics and issues until they meet the Definition of Ready. Works out stakeholder interests and failure conditions, then writes testable criteria into the requirements file. Runs in interview or autopilot mode, maps epics to find missing features, and runs timeboxed spikes that end in an ADR. Use when the user says "refine", "groom the backlog", "make this ready", "write acceptance criteria", "spike", "investigate options", or when xp-issues routes a status:refining or type:spike issue. Comes after xp-issues; hands over to xp-issues for the next issue.
 ---
 
 # xp-refine
 
-Turn a vague ticket into one that someone could implement without asking questions.
+Turn a vague issue into one that can be built without further questions.
+
+**Loop:** setup → issues → **refine** → implement | bugfix → ship → retro
 
 ## Before you start
 
-Read the `## XP Workflow` section in `AGENTS.md` (Definition of Ready, requirements file, human gates). If it is missing, run `xp-setup` first. Read the issue, its comments, its epic and milestone, and the related code.
+1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
+2. Read the issue, its comments, its epic and milestone, and the code it touches.
+3. Pick the mode from AGENTS.md: interview unless the user asked for autopilot.
 
-## Choose the mode
+## Refine a feature
 
-- **Interview** (default when the user is present): ask one question at a time and offer your proposed answer with each one, so the user can just confirm.
-- **Autopilot** (when the user says "autopilot" or the work runs unattended): draft everything from the code, the docs and the issue history. Anything you cannot decide goes into `needs-human` with a comment. Autopilot never passes a human gate.
+1. **Goal and interests.** State in one or two sentences who wants what and why, and check that it is a feature goal. Then list everyone with a stake in the result, not only the user (operations, support, the business, privacy), and the interest each one needs protected or satisfied.
+2. **Failure conditions before solutions.** List everything that can go wrong first (bad input, empty data, missing rights, timeouts, failing services, parallel changes) and only then decide on outcomes. Keep a condition only if the system can notice it (or a check can make it noticeable) and an interest depends on the reaction. Give each kept condition one outcome:
+   - **back on track:** handle it and continue the normal flow
+   - **try again:** let the actor or the system repeat the step
+   - **different success:** reach the goal another way
+   - **safe stop:** end without the goal, with every interest protected
+3. **Criteria.** Write them into the requirements file:
+   - New requirements take the next free number (highest `REQ-NNN` + 1). IDs are never reused.
+   - One criterion `REQ-NNN.N` per testable statement: concrete input, observable result, numbers instead of "fast" or "easy".
+   - Criteria for the normal flow and for every kept failure condition.
+   - Check: the normal flow satisfies every interest, and every failure outcome protects them.
+   - Remove criteria that serve no interest. Each one costs code, tests and maintenance.
+   - `status: accepted` once the user agrees; `draft` in autopilot mode.
+   - The file stays valid against its schema and never records progress, issue numbers or test names.
+4. **Link** with `Requirements: REQ-NNN.1, REQ-NNN.2` in the issue body.
+5. **Size.** If it does not fit into one PR, split it into sub-issues (`xp-issues`) and refine each one.
+6. **Dependencies and unknowns.** Name blocking issues. For an open technical question, create a `type:spike` instead of guessing.
+7. **Definition of Ready.** Check every item. If all hold, move the issue to `status:ready`.
 
-## Refine an issue
+## Refine a bug
 
-1. **Goal and interests.** State in one or two sentences who wants what and why. Then list every stakeholder with a stake in the outcome, not just the user (operator, support, the business, data protection), and what each one needs to be protected or satisfied. Check the level: a feature issue is one goal a user completes in one sitting (see the goal levels in `xp-issues`).
-2. **Failures first, then recovery.** Before writing criteria, brainstorm every condition that can go wrong: invalid input, empty states, missing permissions, timeouts, failing dependencies, concurrent changes. Write the full list first and solve it second. For each condition:
-   - Can the system detect it? If not, drop it, unless a validation can make it detectable.
-   - Must the system react to protect or satisfy an interest from step 1? If not, drop it.
-   - Otherwise decide how it ends: **rejoin** the main flow, **retry**, an **alternative success**, or a **safe failure** that protects every interest.
-3. **Requirements.** Add entries to the requirements YAML or update existing ones:
-   - Take the next free `REQ-NNN`: highest existing number + 1. Never reuse IDs.
-   - Every acceptance criterion gets an ID `REQ-NNN.N` and is testable: concrete input, observable outcome, no "fast" or "user-friendly" without a number.
-   - Write criteria for the main success path and for every failure condition that survived step 2.
-   - Final check: success satisfies every interest from step 1, and every failure protects them.
-   - Then ask of every criterion: does it need to exist? Drop the ones that serve no interest from step 1. Every criterion is code, tests and maintenance later.
-   - Set `status: accepted` when the user agrees (interview mode) or leave it at `draft` (autopilot mode).
-   - Keep the file valid against its schema. Store no progress, issue numbers or test names in it.
-4. **Link.** Put `Requirements: REQ-NNN.1, REQ-NNN.2` into the issue body.
-5. **Size.** If it will not fit into one PR, split it into sub-issues (see `xp-issues`) and refine each one.
-6. **Dependencies and risks.** List blocking issues. If a technical question is open, create a `type:spike` instead of guessing.
-7. **Check the Definition of Ready** item by item. If everything holds, move the issue to `status:ready`. Epics need a human for that step (human gate).
+Steps to reproduce, expected and actual behavior, and the affected criteria if any. A new requirement is only needed when the expected behavior was never specified.
 
-For a bug: reproduction steps, expected and actual behavior, and the affected requirement IDs if there are any, are enough. No new requirement is needed unless the expected behavior was never specified.
+## Refine an epic or milestone
 
-## Refine a milestone or epic
+1. Check that the goal is clear and is an epic goal.
+2. **Goal map:** list every actor (people, roles, external systems) in scope and the feature goals each one has. Every feature goal needs a feature issue, and every feature issue must belong to a feature goal. Create the missing issues; flag the rest as out of scope or as a hint at a missing actor.
+3. Make sure every child has a type and priority, then refine the children in priority order.
+4. Moving an epic to `status:ready` is a human gate.
 
-Check that the goal is clear. Then build an **actor-goal list** to find what is missing: name every actor (people, roles and external systems) that interacts with the scope, and for each one list the user goals it has. Every user goal in scope needs a feature issue, and every feature issue must map to one of them. Create the missing issues, and flag those that map to nothing as out of scope or as a missing actor. Check that every child has a type and priority, then refine the children by priority. Report which ones are ready and which are blocked and why.
-
-## Spike mode
+## Spike
 
 For `type:spike` or an open technical question:
-1. Write down the question and a timebox (default: one session) in the issue.
-2. Investigate: read docs and code, build a throwaway prototype outside `src/` if needed. Prototype code is not merged.
-3. Write an ADR at `docs/adr/NNNN-kebab-title.md`:
+1. Write the question and a timebox (default: one session) into the issue.
+2. Investigate: docs, code, and if needed a throwaway prototype outside `src/` that is never merged.
+3. Record the answer as an ADR in `docs/adr/NNNN-kebab-title.md`:
    ```markdown
    # NNNN. Title
    Date: YYYY-MM-DD
@@ -58,8 +63,8 @@ For `type:spike` or an open technical question:
    ## Decision
    ## Consequences
    ```
-4. A human accepts or rejects the ADR (`needs-human`). Afterwards, update the issues that depended on it and close the spike.
+4. Accepting the ADR is a human decision (`needs-human`). Afterwards, update the issues that depend on it and close the spike.
 
-## Output
+## Hand-over
 
-End with a short list: the issues that are now ready, those still blocked (with the reason), and the requirement IDs you added or changed.
+End with the hand-over from `## XP Workflow` in AGENTS.md. List the issues that are now ready, the ones still blocked and why, and the requirement IDs you added or changed. **Next:** `xp-issues` to pick the next issue.

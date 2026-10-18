@@ -1,38 +1,40 @@
 ---
 name: xp-ship
-description: Get finished work merged and closed in the issue-driven XP workflow. Checks the Definition of Done, acceptance criteria and requirements traceability, catches requirement ID collisions, opens the pull request, and after the merge closes issues and epics and writes release notes for a milestone. Use when the user says "ship it", "open a PR", "is this done", "check the DoD", "release the milestone", or when xp-implement or xp-bugfix finish.
+description: Get finished work checked, merged and closed. Verifies tests, criteria traceability, scope, the code around the diff, simplicity, requirement ID collisions and the Definition of Done; opens the pull request; after the merge closes issues and epics and writes milestone release notes. Use when the user says "ship it", "open a PR", "is this done", "check the DoD", "release the milestone", or when xp-implement or xp-bugfix finish. Comes after xp-implement or xp-bugfix; hands over to xp-issues or, after a milestone, xp-retro.
 ---
 
 # xp-ship
 
-Nothing counts as done until it is checked, merged and closed.
+Work counts as done when it is checked, merged and closed, not when the code compiles.
+
+**Loop:** setup → issues → refine → implement | bugfix → **ship** → retro
 
 ## Before you start
 
-Read the `## XP Workflow` section in `AGENTS.md` (Definition of Done, human gates, requirements file). If it is missing, run `xp-setup` first.
+1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
+2. Fetch the default branch: `git fetch origin <default>`.
 
 ## 1. Check
 
-Go through it in this order and stop at the first failure. Fix the failure (or send it back to `xp-implement`/`xp-bugfix`) before you go on.
+In this order. At the first failure, fix it or send it back to `xp-implement` or `xp-bugfix`, then start again.
 
-1. **Tests.** Run the full suite and the lint command from AGENTS.md. Everything must pass.
-2. **Traceability.** For every criterion ID in the issue's `Requirements:` line, at least one test must contain the ID:
+1. **Tests.** Full suite and lint command from AGENTS.md; everything passes.
+2. **Traceability.** Every criterion in the issue's `Requirements:` line has at least one test that names it:
    ```bash
    for id in REQ-012.1 REQ-012.2; do grep -rqF "$id" <test dirs> && echo "ok $id" || echo "MISSING $id"; done
    ```
-   For a bug, a test must name the issue (`#34`) or the affected criterion.
-3. **Scope.** Compare the diff (`git diff origin/<default>...HEAD`) with the issue. Flag changes that no criterion asks for.
-4. **Beyond the diff.** Most breakage sits in code the diff does not show. For every function, type, field, route, config key or file the diff changes, renames or deletes, search for its users outside the diff (`git grep -n "<name>"`) and read them. Check that they still work, including untouched files, templates, serializers, migrations and docs. Then look at the changed code itself for bugs, missing input validation, security holes, behavior under real load, and risky logic without a test.
-5. **Simplicity.** Check the diff against "simplest thing that could possibly work" in `xp-implement`: flag new dependencies without a stated reason, code that duplicates something the project or platform already provides, and leftover overbuilding. Then check the opposite direction: input checks, data-loss handling, security and accessibility must not have been simplified away.
-6. **Requirement ID collisions.** Another branch may have taken the same new ID in the meantime:
+   For a bug, a test names the issue (`#34`) or the affected criterion.
+3. **Scope.** Compare `git diff origin/<default>...HEAD` with the issue. Flag changes no criterion asks for.
+4. **Around the diff.** Breakage often hides in code the diff does not show. For every function, type, field, route, config key or file the diff changes, renames or deletes, find its users outside the diff (`git grep -n "<name>"`), read them and check they still work, including templates, serializers, migrations and docs. Then review the changed code itself: bugs, missing input checks, security, behavior under real load, risky logic without a test.
+5. **Simplicity.** Check against "Reuse before you write" in `xp-implement`: new dependencies without a reason, code that rebuilds something the project or platform already has, leftover overbuilding. And the other direction: input checks, data-loss handling, security and accessibility must still be there.
+6. **Requirement ID collisions.** Another branch may have taken the same new ID:
    ```bash
-   git fetch origin <default>
    for id in $(git diff origin/<default>...HEAD -- <requirements file> | grep -E '^\+ *- id: REQ-[0-9]{3,}$' | grep -oE 'REQ-[0-9]+'); do
      git show origin/<default>:<requirements file> | grep -qE "id: $id$" && echo "COLLISION $id"
    done
    ```
-   Renumber each collision on this branch to the next number that is free on both branches, and update the issue body and the tests.
-7. **Definition of Done.** Go through every remaining item in AGENTS.md: docs, architecture, ADRs and anything project-specific.
+   Renumber each collision on this branch to a number free on both branches, and update the issue body and the tests.
+7. **Definition of Done.** Every remaining item from AGENTS.md: docs, architecture, ADRs, project-specific items.
 
 Report the result as a checklist.
 
@@ -41,20 +43,22 @@ Report the result as a checklist.
 ```bash
 gh pr create --base <default> --title "<what>" --body "<body>"
 ```
-The body contains a summary, `Closes #<n>`, the criterion IDs covered, how it was tested, and the DoD checklist. Set the issue to `status:review`.
+The body has a summary, `Closes #<n>`, the criteria covered, how it was tested, and the check results. Set the issue to `status:review`.
 
-Merging is a human gate. Do not merge. Ask the human to review and merge, and tell them what to look at.
+Merging is a human gate: ask the user to review and merge, and say what deserves attention.
 
 ## 3. After the merge
 
-- The `Closes #<n>` line closes the issue. Remove its `status:*` label.
-- If it was the last open child of an epic, propose closing the epic (human gate for epics).
-- If it was the last open issue of a milestone, go to step 4.
+- `Closes #<n>` closes the issue; remove its `status:*` label.
+- Last open child of an epic: propose closing the epic.
+- Last open issue of a milestone: continue with step 4.
 
 ## 4. Milestone release
 
-When every issue in a milestone is closed:
 1. Write release notes from the closed issues, grouped into Features, Fixes and Other, one line each with its issue number:
    `gh issue list --milestone "<title>" --state closed --json number,title,labels`
-2. Ask the human to close the milestone and, if the project tags releases, to confirm the tag (`gh release create <tag> --notes-file <file>`).
-3. Suggest `xp-retro` for the milestone.
+2. Ask the user to close the milestone (human gate) and, if the project tags releases, to confirm the tag: `gh release create <tag> --notes-file <file>`.
+
+## Hand-over
+
+End with the hand-over from `## XP Workflow` in AGENTS.md. **Next:** `xp-retro` after a milestone, an epic or a bug with a process gap; otherwise `xp-issues` for the next issue.
