@@ -75,7 +75,7 @@ xp-setup → xp-issues → xp-refine → xp-implement ─┐
 | `xp-refine` | Makes an issue ready: interests, failure conditions, then criteria; goal maps for epics; spikes that end in an ADR |
 | `xp-implement` | Builds a feature test-first: an acceptance test per criterion, small red-green-refactor steps inside, reuse before new code |
 | `xp-bugfix` | Reproduces a bug with a test, fixes the cause, looks for the same mistake elsewhere, names the process gap |
-| `xp-ship` | Checks tests, traceability, scope, the code around the diff, simplicity, ID collisions and Done; opens the PR; closes issues; writes release notes |
+| `xp-ship` | Checks tests, traceability, scope, the code around the diff, simplicity, ID collisions and Done; opens the PR and merges it if the project lets agents merge; closes issues; writes release notes |
 | `xp-retro` | Evidence-based look back; up to three improvements become AGENTS.md rules, memos, issues, or issues against these skills |
 
 Every skill reads the same `## XP Workflow` section, uses the same terms, and ends with the same hand-over (result, waiting on a human, next skill), so the loop can be followed from issue to issue.

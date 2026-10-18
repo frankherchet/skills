@@ -50,8 +50,8 @@ Overbuilding to remove when you refactor: interfaces or base classes with one im
 - No production code without a failing test that asks for it.
 - One behavior per test; test through public interfaces.
 - Never widen the scope quietly. Missing behavior becomes an issue comment or a new issue.
-- An unclear or wrong criterion: stop, comment on the issue, add `needs-human`, or go back to `xp-refine`.
-- Structural changes update `docs/architecture.md` or get an ADR.
+- An unclear or wrong criterion: stop, comment on the issue, add the decision label, or go back to `xp-refine`.
+- Structural changes update the architecture doc named in AGENTS.md or get an ADR.
 
 ## Hand-over
 

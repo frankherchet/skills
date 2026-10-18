@@ -32,18 +32,19 @@ xp-setup → xp-issues → xp-refine → xp-implement ─┐
 | interest | what a stakeholder needs protected or satisfied by a feature |
 | failure condition | something that can go wrong in a feature, with a defined outcome |
 | human gate | a decision only a human may make (see below) |
+| decision label | the label that marks an issue as waiting for a human decision: `<needs-human>` |
 | default branch | the branch PRs merge into |
 
 ### Modes
 - **Interview:** the user is present. Ask one question at a time and propose an answer with each one.
-- **Autopilot:** the work runs unattended. Decide what you can from code, docs and issue history; everything else becomes a `needs-human` question. Autopilot never passes a human gate.
+- **Autopilot:** the work runs unattended, from issue to merge. Decide what you can from code, docs and issue history; everything else becomes a question under the decision label. Autopilot never passes a human gate.
 
 Use interview mode unless the user asks for autopilot.
 
 ### Hand-over
 Every xp-* skill ends with a hand-over in this form:
 - **Result:** what changed, with links (issues, files, PR)
-- **Waiting on a human:** open human gates and `needs-human` questions, or "nothing"
+- **Waiting on a human:** open human gates and questions under the decision label, or "nothing"
 - **Next:** the next skill and issue, for example `xp-ship #12`
 
 ### Repository
@@ -72,21 +73,24 @@ Every xp-* skill ends with a hand-over in this form:
   | `prio:p1` | `d93f0b` | next |
   | `prio:p2` | `fbca04` | soon |
   | `prio:p3` | `c2e0c6` | someday |
-  | `needs-human` | `000000` | waiting for a human decision |
+  | `<needs-human>` | `000000` | decision label: waiting for a human decision |
 
 - An open issue has exactly one `type:*`, one `status:*` and one `prio:*` label.
 - An issue that implements requirements has the line `Requirements: REQ-012.1, REQ-012.2` in its body.
 - Commits and PRs name both: `Refs #12, REQ-012.1`.
 
+### Merging
+- Policy: `<agent>`. **agent:** the agent merges its own PR as soon as every check in `xp-ship` passes and CI (if any) is green. **human:** a human reviews and merges.
+- Command: `<gh pr merge <n> --squash --delete-branch>`
+
 ### Human gates
 Only a human may:
 - move an epic to `status:ready`
-- merge a PR
 - close a milestone
 - set a requirement to `obsolete`
-<additional gates>
+<additional gates, and "merge a PR" if the merge policy is human>
 
-To ask for a decision: add `needs-human`, write the question as an issue comment, and continue with another issue.
+To ask for a decision: add the decision label, write the question as an issue comment, and continue with another issue.
 
 ### Definition of Ready
 An issue may move to `status:ready` when:
@@ -103,7 +107,7 @@ An issue may be closed when:
 - [ ] the full test suite passes: `<test command>`
 - [ ] lint/format passes: `<lint command or "n/a">`
 - [ ] the PR names the issue and criteria and is merged
-- [ ] docs, `<docs/architecture.md>` and ADRs are updated where behavior or structure changed
+- [ ] docs, `<architecture doc>` and ADRs are updated where behavior or structure changed
 <project-specific items>
 
 ### Requirements
@@ -112,6 +116,6 @@ An issue may be closed when:
 - The file says *what* is required, never *how far* it is: issues link to criteria with their `Requirements:` line, tests with the criterion ID in their name or in a comment next to them.
 
 ### Architecture
-- Overview: `<docs/architecture.md>`
+- Overview: `<architecture doc: docs/architecture.md, or an existing document such as CLAUDE.md>`
 - Decisions: `docs/adr/NNNN-kebab-title.md`
 <!-- xp:end -->

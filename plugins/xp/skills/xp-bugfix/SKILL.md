@@ -16,7 +16,7 @@ A bug is fixed when a test that failed because of it passes, its cause is gone, 
 
 ## Steps
 
-1. **Understand.** Read the report, the logs and the code path end to end. Write down expected and actual behavior. If the expected behavior is unclear and no criterion defines it, ask (or use `needs-human`) instead of guessing.
+1. **Understand.** Read the report, the logs and the code path end to end. Write down expected and actual behavior. If the expected behavior is unclear and no criterion defines it, ask (or use the decision label) instead of guessing.
 2. **Reproduce.** Write the smallest test that fails because of the bug, on the lowest level that still shows it. Name it after the affected criterion (`REQ-012.2 …`) or, if there is none, after the issue (`#34 …`). Confirm it fails for the reported reason. If you cannot reproduce the bug, stop and report what you tried.
 3. **Find the cause.** Keep asking why until you reach the cause, not the symptom. Find every caller of the code you are about to change; if several are affected, fix the shared code once instead of each caller.
 4. **Fix.** The smallest change that removes the cause, following "Reuse before you write" in `xp-implement`. Run the new test, then the full suite.

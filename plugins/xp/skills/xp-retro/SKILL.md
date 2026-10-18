@@ -20,7 +20,7 @@ Each shipped piece of work should make the next one easier, including the workfl
 Facts, not impressions:
 - Issues: `gh issue list --milestone "<title>" --state all --json number,title,labels,createdAt,closedAt,comments`
 - PRs: review rounds, requested changes, time from opening to merge (`gh pr list --state merged --search "milestone:\"<title>\""`)
-- `needs-human` questions: what waited, and for how long
+- Questions under the decision label: what waited, and for how long
 - Reopened issues, bugs found after the merge, scope changes during the work
 - Process gaps proposed by `xp-bugfix` in its issue comments
 - Tests: flaky or slow ones, criteria that were hard to test

@@ -63,7 +63,7 @@ For `type:spike` or an open technical question:
    ## Decision
    ## Consequences
    ```
-4. Accepting the ADR is a human decision (`needs-human`). Afterwards, update the issues that depend on it and close the spike.
+4. Accepting the ADR is a human decision (decision label). Afterwards, update the issues that depend on it and close the spike.
 
 ## Hand-over
 

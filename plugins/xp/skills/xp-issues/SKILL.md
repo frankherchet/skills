@@ -51,7 +51,7 @@ For every issue in `status:triage`, or missing a `type:*`, `status:*` or `prio:*
 
 ## Status
 
-Per milestone, report: open and closed counts, issues per `status:*`, every `needs-human` question, and `status:in-progress` issues without activity for more than 7 days.
+Per milestone, report: open and closed counts, issues per `status:*`, every question under the decision label, and `status:in-progress` issues without activity for more than 7 days.
 ```bash
 gh issue list --milestone "<title>" --state all --json number,title,state,labels,updatedAt
 ```
@@ -59,7 +59,7 @@ gh issue list --milestone "<title>" --state all --json number,title,state,labels
 ## Next issue
 
 1. **Default branch first.** Check its latest CI run (`gh run list --branch <default> --limit 1`) or run the test command on it. If it is red, the next issue is fixing it: make sure a `type:bug` `prio:p0` issue exists and route it to `xp-bugfix`.
-2. **Candidates:** `gh issue list --label status:ready --json number,title,labels,milestone`, without `needs-human`.
+2. **Candidates:** `gh issue list --label status:ready --json number,title,labels,milestone`, without the decision label.
 3. **Pick** by priority, then earliest milestone, then lowest number. Bugs win ties.
 4. **Route:** `type:feature` → `xp-implement`, `type:bug` → `xp-bugfix`, `type:spike` → `xp-refine` (spike). An epic is never built itself; take its first ready child.
 5. **Claim it:** `gh issue edit <n> --add-label status:in-progress --remove-label status:ready --add-assignee @me`.
