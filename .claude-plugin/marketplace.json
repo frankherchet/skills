@@ -12,6 +12,12 @@
       "description": "Persistent project memos in .memento/ so agents remember across sessions.",
       "source": "./plugins/memento",
       "category": "productivity"
+    },
+    {
+      "name": "xp",
+      "description": "Issue-driven XP workflow: GitHub Issues as planner, refinement, TDD, bugfix, ship and retro with requirements traceability.",
+      "source": "./plugins/xp",
+      "category": "productivity"
     }
   ]
 }
