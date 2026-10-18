@@ -72,8 +72,8 @@ xp-setup ─▶ xp-issues ─▶ xp-refine ─▶ xp-implement ─┐
 | Skill | Job |
 |---|---|
 | `xp-setup` | Writes the `## XP Workflow` section to AGENTS.md (labels, DoR, DoD, human gates), creates GitHub labels, adds `docs/requirements.yaml` and its schema |
-| `xp-issues` | Milestones, epics, issues and bugs; triage; status; picks the next ready ticket and routes it (a red default branch always comes first) |
-| `xp-refine` | Interview or autopilot refinement until the Definition of Ready holds; spikes end in an ADR |
+| `xp-issues` | Milestones, epics, issues and bugs, sized by goal level; triage; status; picks the next ready ticket and routes it (a red default branch always comes first) |
+| `xp-refine` | Interview or autopilot refinement until the Definition of Ready holds: interests, failures first, then criteria; actor-goal lists for epics; spikes end in an ADR |
 | `xp-implement` | Failing acceptance test first, then red-green-refactor inside it, per acceptance criterion; tests carry the criterion ID (`REQ-012.1`) |
 | `xp-bugfix` | Understand, reproduce with a failing test, fix the root cause, five whys up to the process gap |
 | `xp-ship` | Definition of Done, traceability and requirement-ID collision checks, PR, closing issues, milestone release notes |

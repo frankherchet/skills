@@ -18,23 +18,28 @@ Read the `## XP Workflow` section in `AGENTS.md` (Definition of Ready, requireme
 
 ## Refine an issue
 
-1. **Goal.** State in one or two sentences who wants what and why.
-2. **Requirements.** Add entries to the requirements YAML or update existing ones:
+1. **Goal and interests.** State in one or two sentences who wants what and why. Then list every stakeholder with a stake in the outcome, not just the user (operator, support, the business, data protection), and what each one needs to be protected or satisfied. Check the level: a feature issue is one goal a user completes in one sitting (see the goal levels in `xp-issues`).
+2. **Failures first, then recovery.** Before writing criteria, brainstorm every condition that can go wrong: invalid input, empty states, missing permissions, timeouts, failing dependencies, concurrent changes. Write the full list first and solve it second. For each condition:
+   - Can the system detect it? If not, drop it, unless a validation can make it detectable.
+   - Must the system react to protect or satisfy an interest from step 1? If not, drop it.
+   - Otherwise decide how it ends: **rejoin** the main flow, **retry**, an **alternative success**, or a **safe failure** that protects every interest.
+3. **Requirements.** Add entries to the requirements YAML or update existing ones:
    - Take the next free `REQ-NNN`: highest existing number + 1. Never reuse IDs.
    - Every acceptance criterion gets an ID `REQ-NNN.N` and is testable: concrete input, observable outcome, no "fast" or "user-friendly" without a number.
-   - Cover the unhappy paths too: invalid input, empty states, permissions, failures of dependencies.
+   - Write criteria for the main success path and for every failure condition that survived step 2.
+   - Final check: success satisfies every interest from step 1, and every failure protects them.
    - Set `status: accepted` when the user agrees (interview mode) or leave it at `draft` (autopilot mode).
    - Keep the file valid against its schema. Store no progress, issue numbers or test names in it.
-3. **Link.** Put `Requirements: REQ-NNN.1, REQ-NNN.2` into the issue body.
-4. **Size.** If it will not fit into one PR, split it into sub-issues (see `xp-issues`) and refine each one.
-5. **Dependencies and risks.** List blocking issues. If a technical question is open, create a `type:spike` instead of guessing.
-6. **Check the Definition of Ready** item by item. If everything holds, move the issue to `status:ready`. Epics need a human for that step (human gate).
+4. **Link.** Put `Requirements: REQ-NNN.1, REQ-NNN.2` into the issue body.
+5. **Size.** If it will not fit into one PR, split it into sub-issues (see `xp-issues`) and refine each one.
+6. **Dependencies and risks.** List blocking issues. If a technical question is open, create a `type:spike` instead of guessing.
+7. **Check the Definition of Ready** item by item. If everything holds, move the issue to `status:ready`. Epics need a human for that step (human gate).
 
 For a bug: reproduction steps, expected and actual behavior, and the affected requirement IDs if there are any, are enough. No new requirement is needed unless the expected behavior was never specified.
 
 ## Refine a milestone or epic
 
-Check that the goal is clear and that every child issue exists, has a type and priority and is in scope. Then refine the children by priority. Report which ones are ready and which are blocked and why.
+Check that the goal is clear. Then build an **actor-goal list** to find what is missing: name every actor (people, roles and external systems) that interacts with the scope, and for each one list the user goals it has. Every user goal in scope needs a feature issue, and every feature issue must map to one of them. Create the missing issues, and flag those that map to nothing as out of scope or as a missing actor. Check that every child has a type and priority, then refine the children by priority. Report which ones are ready and which are blocked and why.
 
 ## Spike mode
 

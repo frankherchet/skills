@@ -13,6 +13,18 @@ Read the `## XP Workflow` section in `AGENTS.md`. Labels, human gates, Definitio
 
 Use `gh` for every GitHub operation. If it is unavailable, use the host's GitHub MCP tools.
 
+## Goal levels decide the issue level
+
+Decide the level of a goal before you create an issue for it:
+
+| goal level | test | issue |
+|---|---|---|
+| strategic | spans several sessions, or a whole lifecycle | milestone or `type:epic` |
+| user goal | an actor reaches a valuable result in one sitting | `type:feature` |
+| subfunction | a step inside a user goal | no own issue; it is a criterion or a task inside the feature. Make it an issue only if several features reuse it or it is complex on its own |
+
+If the main path of a feature needs more than about 11 steps, its level is too low (merge steps) or it is really two goals (split it).
+
 ## Create
 
 - **Milestone:** `gh api repos/{owner}/{repo}/milestones -f title="<title>" -f description="<goal>" [-f due_on=<ISO date>]`. The description states the goal in one or two sentences.
