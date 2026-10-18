@@ -1,6 +1,9 @@
 ---
 name: xp-retro
 description: Look back after a milestone, epic or bugfix has shipped. Collects evidence from issues, PRs, commits and sessions, sorts it into what went well, what went badly and what to improve, and turns at most three improvements into real changes, such as AGENTS.md rules, memento memos, project issues or issues against the xp-* skills in frankherchet/skills. Use when the user says "retro", "retrospective", "lessons learned", "what can we improve", or when xp-ship suggests it. Last skill of the xp loop; hands over to xp-issues.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-retro

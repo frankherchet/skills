@@ -1,6 +1,9 @@
 ---
 name: xp-ship
 description: Get finished work checked, merged and closed. Verifies tests, criteria traceability, scope, the code around the diff, simplicity, requirement ID collisions and the Definition of Done; opens the pull request and merges it when the project's merge policy allows agents to; then closes issues and epics and writes milestone release notes. Use when the user says "ship it", "open a PR", "is this done", "check the DoD", "release the milestone", or when xp-implement or xp-bugfix finish. Comes after xp-implement or xp-bugfix; hands over to xp-issues or, after a milestone, xp-retro.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-ship
