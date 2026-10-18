@@ -18,11 +18,12 @@ for (const plugin of plugins) {
     }
   });
 
-  test(`${plugin}: manifests agree on name, version, description`, () => {
+  test(`${plugin}: manifests agree on name, version, description, license`, () => {
     const [first, ...rest] = MANIFESTS.map((m) => json(`plugins/${plugin}/${m}`));
     assert.strictEqual(first.name, plugin);
+    assert.strictEqual(first.license, 'MIT');
     for (const other of rest) {
-      for (const key of ['name', 'version', 'description']) assert.strictEqual(other[key], first[key], key);
+      for (const key of ['name', 'version', 'description', 'license']) assert.strictEqual(other[key], first[key], key);
     }
   });
 

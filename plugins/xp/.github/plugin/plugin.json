@@ -1,19 +1,13 @@
 {
   "name": "xp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Issue-driven XP workflow: GitHub Issues as planner, refinement, TDD, bugfix, ship and retro with requirements traceability.",
   "author": {
     "name": "Frank Herchet",
     "url": "https://github.com/frankherchet"
   },
   "repository": "https://github.com/frankherchet/skills",
-  "keywords": [
-    "workflow",
-    "github-issues",
-    "tdd",
-    "requirements",
-    "traceability",
-    "retro"
-  ],
+  "license": "MIT",
+  "keywords": ["workflow", "github-issues", "tdd", "requirements", "traceability", "retro"],
   "skills": "skills/"
 }
