@@ -21,7 +21,7 @@ tests/                             # node:test, run with `npm test`
 
 ## Adding a plugin
 
-1. Create `plugins/<name>/` with all three manifests. Copy them from `plugins/memento/` and keep `name`, `version` and `description` identical across the three.
+1. Create `plugins/<name>/` with all three manifests. Copy them from `plugins/memento/` and keep `name`, `version`, `description` and `license` (MIT) identical across the three.
 2. Register the plugin in **all three** marketplace files.
 3. Skills go in `plugins/<name>/skills/<skill>/SKILL.md` and need `name` and `description` frontmatter. The description decides when the skill triggers, so state clearly what it does and when to use it.
 4. Hooks:

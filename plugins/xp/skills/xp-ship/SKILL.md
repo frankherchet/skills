@@ -23,7 +23,7 @@ Go through it in this order and stop at the first failure. Fix the failure (or s
    For a bug, a test must name the issue (`#34`) or the affected criterion.
 3. **Scope.** Compare the diff (`git diff origin/<default>...HEAD`) with the issue. Flag changes that no criterion asks for.
 4. **Beyond the diff.** Most breakage sits in code the diff does not show. For every function, type, field, route, config key or file the diff changes, renames or deletes, search for its users outside the diff (`git grep -n "<name>"`) and read them. Check that they still work, including untouched files, templates, serializers, migrations and docs. Then look at the changed code itself for bugs, missing input validation, security holes, behavior under real load, and risky logic without a test.
-5. **Overbuilding.** Flag what the ladder in `xp-implement` would have avoided: new dependencies, abstractions with one implementation, configuration nobody changes, re-implementations of something already in the codebase or standard library, and scaffolding for later. Also confirm that no guardrail was cut: validation at trust boundaries, data-loss handling, security, accessibility.
+5. **Simplicity.** Check the diff against "simplest thing that could possibly work" in `xp-implement`: flag new dependencies without a stated reason, code that duplicates something the project or platform already provides, and leftover overbuilding. Then check the opposite direction: input checks, data-loss handling, security and accessibility must not have been simplified away.
 6. **Requirement ID collisions.** Another branch may have taken the same new ID in the meantime:
    ```bash
    git fetch origin <default>

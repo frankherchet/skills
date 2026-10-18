@@ -1,6 +1,7 @@
 {
   "name": "frank-skills",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "test": "node --test tests/*.test.js"
   }

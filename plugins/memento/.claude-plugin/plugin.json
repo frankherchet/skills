@@ -7,5 +7,6 @@
     "url": "https://github.com/frankherchet"
   },
   "repository": "https://github.com/frankherchet/skills",
+  "license": "MIT",
   "keywords": ["memory", "context", "notes", "sessions"]
 }

@@ -7,13 +7,7 @@
     "url": "https://github.com/frankherchet"
   },
   "repository": "https://github.com/frankherchet/skills",
-  "keywords": [
-    "workflow",
-    "github-issues",
-    "tdd",
-    "requirements",
-    "traceability",
-    "retro"
-  ],
+  "license": "MIT",
+  "keywords": ["workflow", "github-issues", "tdd", "requirements", "traceability", "retro"],
   "skills": "skills/"
 }

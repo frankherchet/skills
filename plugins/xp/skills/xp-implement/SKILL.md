@@ -13,7 +13,7 @@ Build exactly what the issue asks for, test first.
 2. Read the issue, its `Requirements:` line and those entries in the requirements YAML. If the issue is not `status:ready`, stop and suggest `xp-refine`.
 3. Make sure the issue is `status:in-progress` and assigned. Work on a branch: `git switch -c <n>-<short-slug>`.
 4. Run the full test suite once. If it is already red, report that before changing anything.
-5. Read the code the issue touches and trace the real flow end to end before you write anything. The ladder below shortens the solution, never the reading.
+5. Understand before you build: read the code paths the issue touches and follow one real request or call through them. Knowing where a change belongs matters more than how small it is.
 
 ## The double loop
 
@@ -26,28 +26,26 @@ Repeat for every acceptance criterion `REQ-NNN.N` of the issue.
 
 **Inner loop: red, green, refactor in small steps** until the acceptance test passes:
 1. **Red.** Write the smallest unit test for the next piece of behavior the acceptance test needs. Watch it fail.
-2. **Green.** Make it pass with the least new code: climb the ladder below and stop at the first rung that holds.
+2. **Green.** Make it pass with the simplest thing that could possibly work (see below).
 3. **Refactor.** Remove duplication and improve names while every test stays green. No new behavior in this step.
 
 When the acceptance test passes, run the whole suite, then **commit**: `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`. Move on to the next criterion.
 
 If the criterion is small enough that the acceptance test is already a unit test, the two loops collapse into one.
 
-## The ladder
+## Simplest thing that could possibly work
 
-For every piece of production code, stop at the first rung that holds (adapted from [ponytail](https://github.com/DietrichGebert/ponytail)):
+New code is the most expensive way to make a test pass, because it has to be read, tested and maintained. Before writing it, check in this order and take the first option that works:
 
-1. **Does it need to exist?** If no criterion needs it, do not write it.
-2. **Is it already in this codebase?** Reuse the existing helper, type, component or pattern. Search before you write.
-3. **Does the standard library do it?** Use it.
-4. **Does the platform do it natively?** For example `<input type="date">` instead of a picker library, CSS instead of JS, a database constraint instead of app code.
-5. **Does an installed dependency do it?** Use it. Never add a new dependency for what a few lines can do.
-6. **Can it be one line?** Make it one line.
-7. **Only then** write the minimum code that works.
+1. **Required?** Only acceptance criteria justify code. Anything else is out of scope (see Rules).
+2. **Already in the project?** Search for an existing function, type, component or convention and use it.
+3. **Built into the language, runtime or platform?** Standard library, framework features, browser, OS or database capabilities.
+4. **Covered by a dependency the project already declares?** Use it. Adding a new dependency needs a reason in the PR description.
+5. **None of the above:** write new code, only as much as the failing test demands.
 
-No abstraction with a single implementation, no configuration for a value that never changes, no scaffolding "for later". Deletion beats addition.
+Overbuilding to remove in the refactor step: interfaces or base classes with a single implementation, settings nobody will change, code that no test exercises, and files prepared for future issues.
 
-**Guardrails that are never cut**, however small the solution: input validation at trust boundaries, error handling that prevents data loss, security measures, and accessibility basics.
+**Simple is not careless.** These always stay in, even if they make the change bigger: checks on input that enters the system from outside, handling of errors that could lose or corrupt data, security, and accessibility. If a criterion seems to conflict with them, ask before you drop anything.
 
 ## Rules
 
