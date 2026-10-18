@@ -36,6 +36,10 @@ Turn a vague issue into one that can be built without further questions.
 6. **Dependencies and unknowns.** Name blocking issues. For an open technical question, create a `type:spike` instead of guessing.
 7. **Definition of Ready.** Check every item. If all hold, move the issue to `status:ready`.
 
+## Refinement from elsewhere
+
+If the issue has a refinement block from a trusted account (see AGENTS.md), start from it instead of from scratch: check it against the Definition of Ready, turn its criteria into requirement entries, and ask only about what is missing. When the user wants to refine with another assistant, for example by voice, give them the block format from AGENTS.md so the result comes back in that form.
+
 ## Refine a bug
 
 Steps to reproduce, expected and actual behavior, and the affected criteria if any. A new requirement is only needed when the expected behavior was never specified.

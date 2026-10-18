@@ -12,8 +12,8 @@ Build exactly what the criteria ask for, test first, with as little new code as 
 ## Before you start
 
 1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. Read the issue, its `Requirements:` line and those criteria in the requirements file. If the issue is not `status:ready`, stop and propose `xp-refine`.
-3. Check that the issue is `status:in-progress` and assigned, and work on a branch: `git switch -c <n>-<short-slug>`.
+2. Read the issue, its `Requirements:` line and those criteria in the requirements file. If the criteria only exist in a trusted refinement block, write them into the requirements file first (next free IDs). If the issue does not meet the Definition of Ready, stop and propose `xp-refine`.
+3. Check that the issue is `status:in-progress` and assigned, and work on a branch: `git switch -c <n>-<short-slug>`. In headless mode the runner has already prepared the worktree and owns all git and GitHub steps.
 4. Run the full test suite. If it is already red, report that before you change anything.
 5. Read the code the issue touches and follow one real request or call through it. Knowing where a change belongs matters more than how small it is.
 
