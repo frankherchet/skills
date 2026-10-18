@@ -1,6 +1,9 @@
 ---
 name: xp-setup
 description: Set up a project for the issue-driven XP workflow. Interviews the user about the GitHub remote, build and CI, labels, Definition of Ready and Done, merge policy, human gates, architecture and requirements, then writes the "## XP Workflow" section into AGENTS.md, creates the labels and adds the requirements file with its schema. Use when the user says "set up xp", "set up the workflow", "configure AGENTS.md for issues", or when another xp-* skill finds no "## XP Workflow" section. Safe to rerun. First skill of the xp loop; hands over to xp-issues.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-setup

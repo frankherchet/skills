@@ -1,6 +1,9 @@
 ---
 name: xp-bugfix
 description: Fix a bug so it stays fixed. Understand it, reproduce it with a failing test, fix the cause rather than the symptom, look for the same mistake elsewhere, and trace back to the gap in the process that let it in. Use when the user reports a bug, an error, a regression or broken behavior, says "fix #12" for a type:bug issue, or when xp-issues routes a bug or a red default branch. Comes after xp-issues; hands over to xp-ship.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-bugfix

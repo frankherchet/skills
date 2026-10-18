@@ -23,13 +23,13 @@ tests/                             # node:test, run with `npm test`
 
 1. Create `plugins/<name>/` with all three manifests. Copy them from `plugins/memento/` and keep `name`, `version`, `description` and `license` (MIT) identical across the three.
 2. Register the plugin in **all three** marketplace files.
-3. Skills go in `plugins/<name>/skills/<skill>/SKILL.md` and need `name` and `description` frontmatter. The description decides when the skill triggers, so state clearly what it does and when to use it.
+3. Skills go in `plugins/<name>/skills/<skill>/SKILL.md` and need `name`, `description` and `metadata.version` (the plugin version) plus `metadata.source: frankherchet/skills` in the frontmatter. The description decides when the skill triggers, so state clearly what it does and when to use it.
 4. Hooks:
    - Write hook logic once as a dependency-free Node script.
    - Detect the host by environment: `COPILOT_PLUGIN_DATA` means Copilot, which expects `{"additionalContext": …}`. Otherwise it is Claude or Codex, which expect `{"hookSpecificOutput": {"hookEventName": …, "additionalContext": …}}`.
    - Hooks must never fail a session: catch everything and exit 0.
 5. Add tests under `tests/` that simulate each host's environment. Run `npm test`.
-6. Bump `version` in all three manifests when behavior changes.
+6. Bump `version` in all three manifests and in every SKILL.md (`metadata.version`) when behavior changes. Projects that vendor a skill (`npx skills add`) can then tell which version their copy is based on, so local improvements can be merged back.
 
 ## Conventions
 

@@ -1,6 +1,9 @@
 ---
 name: xp-refine
 description: Refine milestones, epics and issues until they meet the Definition of Ready. Works out stakeholder interests and failure conditions, then writes testable criteria into the requirements file. Runs in interview or autopilot mode, maps epics to find missing features, and runs timeboxed spikes that end in an ADR. Use when the user says "refine", "groom the backlog", "make this ready", "write acceptance criteria", "spike", "investigate options", or when xp-issues routes a status:refining or type:spike issue. Comes after xp-issues; hands over to xp-issues for the next issue.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-refine

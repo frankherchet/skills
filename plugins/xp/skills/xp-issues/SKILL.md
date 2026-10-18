@@ -1,6 +1,9 @@
 ---
 name: xp-issues
 description: Plan and steer work with GitHub Issues in the issue-driven XP workflow. Creates milestones, epics, features, bugs and spikes at the right goal level, triages new issues, reports status, and picks the next issue and routes it to xp-refine, xp-implement or xp-bugfix. Use when the user wants to plan a milestone or epic, file a bug or feature, triage the backlog, asks "what's next" or "status of the milestone", or wants to start the feature or bugfix loop. Comes after xp-setup or xp-ship; hands over to xp-refine, xp-implement or xp-bugfix.
+metadata:
+  version: "0.2.0"
+  source: frankherchet/skills
 ---
 
 # xp-issues
