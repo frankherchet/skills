@@ -2,7 +2,7 @@
 name: xp-setup
 description: Set up a project for the issue-driven XP workflow. Interviews the user about the GitHub remote, build and CI, labels, Definition of Ready and Done, merge policy, human gates, architecture and requirements, then writes the "## XP Workflow" section into AGENTS.md, creates the labels and adds the requirements file with its schema. Use when the user says "set up xp", "set up the workflow", "configure AGENTS.md for issues", or when another xp-* skill finds no "## XP Workflow" section. Safe to rerun. First skill of the xp loop; hands over to xp-issues.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: frankherchet/skills
 ---
 
@@ -28,9 +28,10 @@ Work in interview mode: one topic at a time, each with a proposed answer drawn f
 4. **Definition of Ready and Done:** the template defaults plus project-specific items. An existing Definition of Done is merged in, not replaced.
 5. **Merge policy:** default `agent`: the agent merges after `xp-ship` passes, which is what makes autopilot run from issue to merge. Choose `human` if every PR needs a review. Ask for the merge command (default `gh pr merge <n> --squash --delete-branch`), and make sure the agent's permission settings allow it.
 6. **Human gates:** the three fixed gates plus any the user adds.
-7. **Architecture:** if the project already describes its architecture (for example in CLAUDE.md or docs), point to that document. Otherwise draft a short overview of components, boundaries and key technologies from the code.
-8. **Existing workflow docs:** if the project describes another workflow for agents, ask whether `## XP Workflow` replaces it. Replaced docs become a short pointer to the section, so agents do not follow two processes.
-9. **Requirements:** file location, and whether to import existing requirements from the README, issues or docs as `draft` entries.
+7. **Default mode:** `autopilot` if the user wants the loop to run on its own and only stop for human gates and decision-label questions; `interview` if they want to be asked along the way. Default: `interview`.
+8. **Architecture:** if the project already describes its architecture (for example in CLAUDE.md or docs), point to that document. Otherwise draft a short overview of components, boundaries and key technologies from the code.
+9. **Existing workflow docs:** if the project describes another workflow for agents, ask whether `## XP Workflow` replaces it. Replaced docs become a short pointer to the section, so agents do not follow two processes.
+10. **Requirements:** file location, and whether to import existing requirements from the README, issues or docs as `draft` entries.
 
 ## Write
 

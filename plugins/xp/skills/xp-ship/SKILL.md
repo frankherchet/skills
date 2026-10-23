@@ -2,7 +2,7 @@
 name: xp-ship
 description: Get finished work checked, merged and closed. Verifies tests, criteria traceability, scope, the code around the diff, simplicity, requirement ID collisions and the Definition of Done; opens the pull request and merges it when the project's merge policy allows agents to; then closes issues and epics and writes milestone release notes. Use when the user says "ship it", "open a PR", "is this done", "check the DoD", "release the milestone", or when xp-implement or xp-bugfix finish. Comes after xp-implement or xp-bugfix; hands over to xp-issues or, after a milestone, xp-retro.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: frankherchet/skills
 ---
 
@@ -48,16 +48,18 @@ gh pr create --base <default> --title "<what>" --body "<body>"
 ```
 The body has a summary, `Closes #<n>`, the criteria covered, how it was tested, and the check results. Set the issue to `status:review`.
 
+Before you open it, set every requirement of the issue that is still `draft` to `accepted` on the branch and name them in the body: merging the PR accepts them.
+
 ## 3. Merge
 
 Follow the merge policy in AGENTS.md:
-- **agent:** when every check in step 1 passes and CI (if any) is green (`gh pr checks <pr>`), merge with the project's merge command. Never merge with a failing or skipped check, and never bypass branch protection.
+- **agent:** when every check in step 1 passes and CI (if any) is green (`gh pr checks <pr> --watch` waits for it), merge with the project's merge command. A failing CI check is handled like a failed check in step 1. Never merge with a failing or skipped check, and never bypass branch protection.
 - **human:** ask the user to review and merge, and say what deserves attention.
 
 ## 4. After the merge
 
 - `Closes #<n>` closes the issue; remove its `status:*` label.
-- Last open child of an epic: propose closing the epic.
+- Last open child of an epic: close the epic (`gh issue close <epic>`).
 - Last open issue of a milestone: continue with step 5.
 
 ## 5. Milestone release
