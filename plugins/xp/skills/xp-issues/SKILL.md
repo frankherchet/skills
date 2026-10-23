@@ -2,7 +2,7 @@
 name: xp-issues
 description: Plan and steer work with GitHub Issues in the issue-driven XP workflow. Creates milestones, epics, features, bugs and spikes at the right goal level, triages new issues, reports status, and picks the next issue and routes it to xp-refine, xp-implement or xp-bugfix. Use when the user wants to plan a milestone or epic, file a bug or feature, triage the backlog, asks "what's next" or "status of the milestone", or wants to start the feature or bugfix loop. Comes after xp-setup or xp-ship; hands over to xp-refine, xp-implement or xp-bugfix.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: frankherchet/skills
 ---
 
@@ -67,7 +67,7 @@ gh issue list --milestone "<title>" --state all --json number,title,state,labels
 4. **Route:** `type:feature` → `xp-implement`, `type:bug` → `xp-bugfix`, `type:spike` → `xp-refine` (spike). An epic is never built itself; take its first ready child.
 5. **Claim it:** `gh issue edit <n> --add-label status:in-progress --remove-label status:ready --add-assignee @me`.
 
-If nothing is ready, say so and propose refining the highest-priority `status:refining` issue.
+If nothing is ready, triage the `status:triage` issues and refine the highest-priority `status:refining` one with `xp-refine` (in interview mode, propose it). If nothing can move without a human, say so; in autopilot that ends the run.
 
 ## Rules
 

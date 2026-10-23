@@ -2,7 +2,7 @@
 name: xp-retro
 description: Look back after a milestone, epic or bugfix has shipped. Collects evidence from issues, PRs, commits and sessions, sorts it into what went well, what went badly and what to improve, and turns at most three improvements into real changes, such as AGENTS.md rules, memento memos, project issues or issues against the xp-* skills in frankherchet/skills. Use when the user says "retro", "retrospective", "lessons learned", "what can we improve", or when xp-ship suggests it. Last skill of the xp loop; hands over to xp-issues.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: frankherchet/skills
 ---
 
@@ -15,8 +15,8 @@ Each shipped piece of work should make the next one easier, including the workfl
 ## Before you start
 
 1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. Settle the scope with the user: a milestone, an epic or a single bug.
-3. Pick the mode from AGENTS.md: interview unless the user asked for autopilot.
+2. Settle the scope: a milestone, an epic or a single bug, as named by the user or the `xp-ship` hand-over. Ask only if neither names one.
+3. Use the default mode from AGENTS.md unless the user asks for another.
 
 ## 1. Collect evidence
 
@@ -52,6 +52,8 @@ gh issue create --repo frankherchet/skills --title "xp-<skill>: <problem>" --lab
   --body "<what happened, evidence, proposed change to SKILL.md>"
 ```
 Leave out `--label` if the label does not exist there.
+
+In autopilot mode, AGENTS.md edits and skills-repo issues are not applied. Put them into the record (step 4) as proposals and add the decision label to the epic or bug issue (for a milestone, list them under "Waiting on a human" in the hand-over); memos and project issues are created right away.
 
 ## 4. Record
 

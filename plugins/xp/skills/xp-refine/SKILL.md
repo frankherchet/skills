@@ -2,7 +2,7 @@
 name: xp-refine
 description: Refine milestones, epics and issues until they meet the Definition of Ready. Works out stakeholder interests and failure conditions, then writes testable criteria into the requirements file. Runs in interview or autopilot mode, maps epics to find missing features, and runs timeboxed spikes that end in an ADR. Use when the user says "refine", "groom the backlog", "make this ready", "write acceptance criteria", "spike", "investigate options", or when xp-issues routes a status:refining or type:spike issue. Comes after xp-issues; hands over to xp-issues for the next issue.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: frankherchet/skills
 ---
 
@@ -16,7 +16,7 @@ Turn a vague issue into one that can be built without further questions.
 
 1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
 2. Read the issue, its comments, its epic and milestone, and the code it touches.
-3. Pick the mode from AGENTS.md: interview unless the user asked for autopilot.
+3. Use the default mode from AGENTS.md unless the user asks for another.
 
 ## Refine a feature
 
@@ -32,7 +32,7 @@ Turn a vague issue into one that can be built without further questions.
    - Criteria for the normal flow and for every kept failure condition.
    - Check: the normal flow satisfies every interest, and every failure outcome protects them.
    - Remove criteria that serve no interest. Each one costs code, tests and maintenance.
-   - `status: accepted` once the user agrees; `draft` in autopilot mode.
+   - `status: accepted` once the user agrees or when the criteria come from a trusted refinement block; `draft` in autopilot mode (`xp-ship` accepts them with the merge).
    - The file stays valid against its schema and never records progress, issue numbers or test names.
 4. **Link** with `Requirements: REQ-NNN.1, REQ-NNN.2` in the issue body.
 5. **Size.** If it does not fit into one PR, split it into sub-issues (`xp-issues`) and refine each one.

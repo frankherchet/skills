@@ -37,11 +37,11 @@ xp-setup → xp-issues → xp-refine → xp-implement ─┐
 
 ### Modes
 - **Interview:** the user is present. Ask one question at a time and propose an answer with each one.
-- **Autopilot:** the work runs unattended, from issue to merge. Decide what you can from code, docs and issue history; everything else becomes a question under the decision label. Autopilot never passes a human gate.
+- **Autopilot:** the work runs unattended, from issue to merge. Decide what you can from code, docs and issue history; everything else becomes a question under the decision label. Autopilot never passes a human gate. After each hand-over, start the **Next** skill yourself without waiting for the user. Stop only when no issue is ready or refinable without a human, and end with one hand-over that lists everything waiting on a human.
 
-- **Headless:** autopilot inside a runner script (a bot). The runner owns git and GitHub: branches, commits, PRs, labels, comments and merges. The skill only changes files in its worktree and reports what the runner should do in the runner's result file. Never call `gh`, `git commit` or `git push` in headless mode.
+- **Headless:** autopilot inside a runner script (a bot). The runner owns git and GitHub: branches, commits, PRs, labels, comments and merges. The skill only changes files in its worktree and reports what the runner should do in the runner's result file. Never call `gh`, `git commit` or `git push` in headless mode. The runner drives the loop, so stop after one skill.
 
-Use interview mode unless the user asks for autopilot.
+Default mode: `<interview | autopilot>`. Use it unless the user asks for another mode.
 
 ### Refinement block
 Refinement may happen outside an xp skill, for example by talking it through with a voice assistant. Its result is posted as an issue comment in this form:

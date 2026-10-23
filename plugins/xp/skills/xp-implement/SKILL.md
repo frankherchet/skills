@@ -2,7 +2,7 @@
 name: xp-implement
 description: Build a ready feature issue test-first, one criterion at a time. An acceptance test per criterion comes first, then small red-green-refactor steps inside it, preferring reuse over new code; every test names its criterion ID. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Comes after xp-issues; hands over to xp-ship.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: frankherchet/skills
 ---
 
@@ -15,9 +15,9 @@ Build exactly what the criteria ask for, test first, with as little new code as 
 ## Before you start
 
 1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. Read the issue, its `Requirements:` line and those criteria in the requirements file. If the criteria only exist in a trusted refinement block, write them into the requirements file first (next free IDs). If the issue does not meet the Definition of Ready, stop and propose `xp-refine`.
+2. Read the issue, its `Requirements:` line and those criteria in the requirements file. If the criteria only exist in a trusted refinement block, write them into the requirements file first (next free IDs). If the issue does not meet the Definition of Ready, run `xp-refine` on it first (in interview mode, propose it).
 3. Check that the issue is `status:in-progress` and assigned, and work on a branch: `git switch -c <n>-<short-slug>`. In headless mode the runner has already prepared the worktree and owns all git and GitHub steps.
-4. Run the full test suite. If it is already red, report that before you change anything.
+4. Run the full test suite. If it is already red, the default branch is broken: put the issue back to `status:ready` and fix the default branch first with `xp-bugfix` ("Fix the default branch first" in AGENTS.md).
 5. Read the code the issue touches and follow one real request or call through it. Knowing where a change belongs matters more than how small it is.
 
 ## Build one criterion at a time
@@ -53,7 +53,7 @@ Overbuilding to remove when you refactor: interfaces or base classes with one im
 - No production code without a failing test that asks for it.
 - One behavior per test; test through public interfaces.
 - Never widen the scope quietly. Missing behavior becomes an issue comment or a new issue.
-- An unclear or wrong criterion: stop, comment on the issue, add the decision label, or go back to `xp-refine`.
+- An unclear or wrong criterion: go back to `xp-refine` if code, docs or issue history answer it; otherwise comment on the issue, add the decision label and continue with the next issue.
 - Structural changes update the architecture doc named in AGENTS.md or get an ADR.
 
 ## Hand-over
