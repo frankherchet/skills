@@ -1,0 +1,138 @@
+# Conductor-native, fake-worker graph. No model/API calls or GitHub mutations.
+# See README.md for validation and sandbox caveats.
+workflow:
+  name: xp-swarm-offline-review
+  description: Verify Conductor fan-out/join, typed script outputs and human gating offline.
+  version: "1.0.0"
+  entry_point: preflight
+  input:
+    issue_id:
+      type: string
+      required: true
+      description: Numeric fixture issue ID (not a real GitHub mutation).
+    input_sha:
+      type: string
+      required: true
+      description: Synthetic 40-character hexadecimal commit SHA.
+    fail_review:
+      type: string
+      required: false
+      default: none
+      description: "Optional simulated failure: none, review-traceability, review-impact."
+  limits:
+    max_iterations: 12
+    timeout_seconds: 300
+  runtime:
+    provider: copilot
+    checkpoint:
+      every_agent: true
+      keep_last: 3
+parallel:
+  - name: parallel_reviews
+    description: Two independent, simulated read-only reviews.
+    agents:
+      - review_traceability
+      - review_impact
+    failure_mode: all_or_nothing
+    routes:
+      - to: verify_join
+agents:
+  - name: preflight
+    type: script
+    description: Validate only the synthetic issue ID and SHA format.
+    command: node
+    args:
+      - "{{ workflow.dir }}/scripts/offline-node.mjs"
+      - preflight
+      - "{{ workflow.input.issue_id }}"
+      - "{{ workflow.input.input_sha }}"
+    output:
+      node_id: {type: string}
+      issue_id: {type: string}
+      input_sha: {type: string}
+      status: {type: string, enum: [passed]}
+      evidence: {type: object}
+    routes:
+      - to: parallel_reviews
+        when: "{{ output.status == 'passed' }}"
+      - to: rejected
+
+  - name: review_traceability
+    type: script
+    description: Synthetic review; must not be mistaken for real traceability.
+    command: node
+    args:
+      - "{{ workflow.dir }}/scripts/offline-node.mjs"
+      - review-traceability
+      - "{{ workflow.input.issue_id }}"
+      - "{{ workflow.input.input_sha }}"
+      - "{{ workflow.input.fail_review }}"
+    output:
+      node_id: {type: string}
+      issue_id: {type: string}
+      input_sha: {type: string}
+      status: {type: string, enum: [passed, failed]}
+      evidence: {type: object}
+
+  - name: review_impact
+    type: script
+    description: Synthetic review; independent of traceability worker.
+    command: node
+    args:
+      - "{{ workflow.dir }}/scripts/offline-node.mjs"
+      - review-impact
+      - "{{ workflow.input.issue_id }}"
+      - "{{ workflow.input.input_sha }}"
+      - "{{ workflow.input.fail_review }}"
+    output:
+      node_id: {type: string}
+      issue_id: {type: string}
+      input_sha: {type: string}
+      status: {type: string, enum: [passed, failed]}
+      evidence: {type: object}
+
+  - name: verify_join
+    type: script
+    description: Deterministically reject missing, stale or failed review evidence.
+    command: node
+    args:
+      - "{{ workflow.dir }}/scripts/offline-node.mjs"
+      - join
+      - "{{ workflow.input.issue_id }}"
+      - "{{ workflow.input.input_sha }}"
+    stdin: "{{ parallel_reviews.outputs | tojson }}"
+    output:
+      node_id: {type: string}
+      issue_id: {type: string}
+      input_sha: {type: string}
+      status: {type: string, enum: [passed, failed]}
+      evidence: {type: object}
+    routes:
+      - to: approval_gate
+        when: "{{ output.status == 'passed' }}"
+      - to: rejected
+
+  - name: approval_gate
+    type: human_gate
+    prompt: |
+      **Offline fixture ONLY.** No GitHub action or merge will occur.
+      Synthetic reviews passed. Approve completing this simulated run?
+    options:
+      - name: approve
+        description: Approve this simulation (no side effects).
+      - name: reject
+        description: Reject this simulation.
+    routes:
+      - to: approved
+        when: "{{ approval_gate.choice == 'approve' }}"
+      - to: rejected
+
+  - name: approved
+    type: terminate
+    status: success
+    reason: A human approved the simulation; no real XP merge authorized.
+
+  - name: rejected
+    type: terminate
+    status: failed
+    reason: Simulation rejected or at least one check failed. No GitHub mutation.
