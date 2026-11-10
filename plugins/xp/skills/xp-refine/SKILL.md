@@ -2,7 +2,7 @@
 name: xp-refine
 description: Refine milestones, epics and issues until they meet the Definition of Ready. Works out stakeholder interests and failure conditions, then writes testable criteria into the requirements file. Runs in interview or autopilot mode, maps epics to find missing features, and runs timeboxed spikes that end in an ADR. Use when the user says "refine", "groom the backlog", "make this ready", "write acceptance criteria", "spike", "investigate options", or when xp-issues routes a status:refining or type:spike issue. Comes after xp-issues; hands over to xp-issues for the next issue.
 metadata:
-  version: "0.3.0"
+  version: "0.3.1"
   source: frankherchet/skills
 ---
 
@@ -71,6 +71,7 @@ For `type:spike` or an open technical question:
    ## Consequences
    ```
 4. Accepting the ADR is a human decision (decision label). Afterwards, update the issues that depend on it and close the spike.
+5. Link files in issue and PR comments on the default branch (`blob/<default>/<path>`), never on the spike branch: it is deleted on merge. If the file is not on the default branch yet, name the path without a link or comment after the merge.
 
 ## Hand-over
 
