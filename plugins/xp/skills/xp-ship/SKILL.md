@@ -2,7 +2,7 @@
 name: xp-ship
 description: Get finished work checked, merged and closed. Verifies tests, criteria traceability, scope, the code around the diff, simplicity, requirement ID collisions and the Definition of Done; opens the pull request and merges it when the project's merge policy allows agents to; then closes issues and epics and writes milestone release notes. Use when the user says "ship it", "open a PR", "is this done", "check the DoD", "release the milestone", or when xp-implement or xp-bugfix finish. Comes after xp-implement or xp-bugfix; hands over to xp-issues or, after a milestone, xp-retro.
 metadata:
-  version: "0.3.0"
+  version: "0.3.1"
   source: frankherchet/skills
 ---
 
@@ -60,6 +60,7 @@ Follow the merge policy in AGENTS.md:
 
 - `Closes #<n>` closes the issue; remove its `status:*` label.
 - Last open child of an epic: close the epic (`gh issue close <epic>`).
+- Links to files in comments point at the default branch (`blob/<default>/<path>`); the merged branch is gone. Check your own comments on the issue and fix links to the old branch.
 - Last open issue of a milestone: continue with step 5.
 
 ## 5. Milestone release
