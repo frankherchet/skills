@@ -1,8 +1,8 @@
 ---
 name: xp-bugfix
-description: Fix a bug so it stays fixed. Understand it, reproduce it with a failing test, fix the cause rather than the symptom, look for the same mistake elsewhere, and trace back to the gap in the process that let it in. Use when the user reports a bug, an error, a regression or broken behavior, says "fix #12" for a type:bug issue, or when xp-issues routes a bug or a red default branch. Comes after xp-issues; hands over to xp-ship.
+description: Fix a bug so it stays fixed. Reproduce it with a failing test, fix the cause, look for the same mistake elsewhere and name the process gap. Use for bug reports, errors, regressions, "fix issue 12" on a type:bug issue, or a red default branch.
 metadata:
-  version: "0.3.1"
+  version: "0.4.0"
   source: frankherchet/skills
 ---
 
@@ -14,8 +14,8 @@ A bug is fixed when a test that failed because of it passes, its cause is gone, 
 
 ## Before you start
 
-1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. If there is no issue yet, create a `type:bug` issue (`xp-issues`). Set it to `status:in-progress` and work on a branch: `git switch -c <n>-fix-<short-slug>`.
+1. Follow `## XP Workflow` in `AGENTS.md`. Most hosts have loaded the file already; read it only if the section is not in your context. If the section does not exist, run `xp-setup` first.
+2. If there is no issue yet, create a `type:bug` issue (`xp-issues`). Set it to `status:in-progress` and work on a branch: `git fetch origin && git switch -c <n>-fix-<short-slug> origin/<default>`.
 
 ## Steps
 

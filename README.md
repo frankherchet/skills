@@ -7,7 +7,7 @@ Personal skills, plugins and agents that work in **Claude Code**, **OpenAI Codex
 | Plugin | What it does |
 |---|---|
 | [memento](plugins/memento/skills/memento/SKILL.md) | Agents keep short project memos in `.memento/`. At the start of every new session they get the memo index and are reminded to write memos for anything worth remembering across sessions. |
-| [xp](plugins/xp/skills/) | Issue-driven XP workflow: GitHub Issues as the planner, refinement to a Definition of Ready, TDD, bugfixing with a failing test first, shipping against a Definition of Done with requirements traceability, and retrospectives. |
+| [xp](plugins/xp/skills/) | Issue-driven XP workflow: kickoff approval, autonomous issue-by-issue implementation and independent review, requirements traceability, and a run report. |
 
 ## Install
 
@@ -70,12 +70,13 @@ xp-setup → xp-issues → xp-refine → xp-implement ─┐
 
 | Skill | Job |
 |---|---|
-| `xp-setup` | Once per project: writes the `## XP Workflow` section into AGENTS.md (loop, terms, modes, hand-over, labels, Definition of Ready and Done, human gates), creates labels, adds the requirements file and its schema |
+| `xp-setup` | Once per project: configures the `## XP Workflow` section in AGENTS.md, creates labels, and adds the requirements file and its schema |
+| `xp-run` | Drives an unattended run from a human-approved kickoff through fresh workers, independent review and a run report |
 | `xp-issues` | Plans milestones, epics and issues at the right goal level, triages, reports status, picks the next issue (a red default branch always comes first) |
 | `xp-refine` | Makes an issue ready: interests, failure conditions, then criteria; goal maps for epics; spikes that end in an ADR |
-| `xp-implement` | Builds a feature test-first: an acceptance test per criterion, small red-green-refactor steps inside, reuse before new code |
+| `xp-implement` | Builds a feature test-first: an acceptance test per criterion, optional small unit-test steps, and reuse before new code |
 | `xp-bugfix` | Reproduces a bug with a test, fixes the cause, looks for the same mistake elsewhere, names the process gap |
-| `xp-ship` | Checks tests, traceability, scope, the code around the diff, simplicity, ID collisions and Done; opens the PR and merges it if the project lets agents merge; closes issues; writes release notes |
+| `xp-ship` | Checks readiness to merge, opens the PR, obtains an independent review for agent merges, and handles protected paths and release notes |
 | `xp-retro` | Evidence-based look back; up to three improvements become AGENTS.md rules, memos, issues, or issues against these skills |
 
 Every skill reads the same `## XP Workflow` section, uses the same terms, and ends with the same hand-over (result, waiting on a human, next skill), so the loop can be followed from issue to issue.

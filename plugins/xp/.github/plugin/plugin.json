@@ -1,6 +1,6 @@
 {
   "name": "xp",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Issue-driven XP workflow: GitHub Issues as planner, refinement, TDD, bugfix, ship and retro with requirements traceability.",
   "author": {
     "name": "Frank Herchet",

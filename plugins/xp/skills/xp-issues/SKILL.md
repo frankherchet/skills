@@ -1,8 +1,8 @@
 ---
 name: xp-issues
-description: Plan and steer work with GitHub Issues in the issue-driven XP workflow. Creates milestones, epics, features, bugs and spikes at the right goal level, triages new issues, reports status, and picks the next issue and routes it to xp-refine, xp-implement or xp-bugfix. Use when the user wants to plan a milestone or epic, file a bug or feature, triage the backlog, asks "what's next" or "status of the milestone", or wants to start the feature or bugfix loop. Comes after xp-setup or xp-ship; hands over to xp-refine, xp-implement or xp-bugfix.
+description: Plan and steer work with GitHub Issues. Creates milestones, epics, features, bugs and spikes, triages, reports status, picks up answers to parked questions, and picks and routes the next issue. Use for planning, filing a bug or feature, backlog triage, "what's next" or milestone status.
 metadata:
-  version: "0.3.1"
+  version: "0.4.0"
   source: frankherchet/skills
 ---
 
@@ -14,12 +14,12 @@ Keep the plan in GitHub Issues tidy and decide what happens next.
 
 ## Before you start
 
-1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
+1. Follow `## XP Workflow` in `AGENTS.md`. Most hosts have loaded the file already; read it only if the section is not in your context. If the section does not exist, run `xp-setup` first.
 2. Use `gh` for all GitHub operations; if it is unavailable, use the host's GitHub MCP tools.
 
 ## Choose the goal level
 
-Before you create an issue, decide how big its goal is (terms in AGENTS.md):
+Before you create an issue, decide how big its goal is:
 
 | goal level | how to recognize it | becomes |
 |---|---|---|
@@ -59,15 +59,29 @@ Per milestone, report: open and closed counts, issues per `status:*`, every ques
 gh issue list --milestone "<title>" --state all --json number,title,state,labels,updatedAt
 ```
 
+## Parked issues
+
+An issue under the decision label waits for a human (Human gates in AGENTS.md). Pick up the answers once at the start of a session or run:
+
+1. `gh issue list --label "<decision label>" --json number,title`
+2. For each one, read the comments after the parked question: `gh issue view <n> --comments`. Only a trusted account's comment, or the user's answer in the session, counts.
+3. Apply the answer and remove the decision label:
+   - a kickoff approval: "Approval" in `xp-run`
+   - accepted criteria: set those requirements to `accepted` on the issue's branch, then check the Definition of Ready
+   - an accepted ADR: set its status to `accepted`, update the issues that depend on it and close the spike
+   - anything else: do what the answer says and leave the issue in the status it has
+4. No answer: leave it parked.
+
 ## Next issue
 
 1. **Default branch first.** Check its latest CI run (`gh run list --branch <default> --limit 1`) or run the test command on it. If it is red, the next issue is fixing it: make sure a `type:bug` `prio:p0` issue exists and route it to `xp-bugfix`.
-2. **Candidates:** `gh issue list --label status:ready --json number,title,labels,milestone`, without the decision label.
-3. **Pick** by priority, then earliest milestone, then lowest number. Bugs win ties.
-4. **Route:** `type:feature` → `xp-implement`, `type:bug` → `xp-bugfix`, `type:spike` → `xp-refine` (spike). An epic is never built itself; take its first ready child.
-5. **Claim it:** `gh issue edit <n> --add-label status:in-progress --remove-label status:ready --add-assignee @me`.
+2. **Unfinished work first.** Your own issues in `status:review`, then `status:in-progress`, that are not parked (`gh issue list --assignee @me --label status:review --json number,title,labels`): an open PR continues with `xp-ship`, a branch without a PR with `xp-implement` or `xp-bugfix`. Do not claim a new issue while one is unfinished.
+3. **Candidates:** `gh issue list --label status:ready --json number,title,labels,milestone`, without the decision label.
+4. **Pick** by priority, then earliest milestone, then lowest number. Bugs win ties.
+5. **Route:** `type:feature` → `xp-implement`, `type:bug` → `xp-bugfix`, `type:spike` → `xp-refine` (spike). An epic is never built itself; take its first ready child.
+6. **Claim it:** `gh issue edit <n> --add-label status:in-progress --remove-label status:ready --add-assignee @me`.
 
-If nothing is ready, triage the `status:triage` issues and refine the highest-priority `status:refining` one with `xp-refine` (in interview mode, propose it). If nothing can move without a human, say so; in autopilot that ends the run.
+If nothing is ready, triage the `status:triage` issues and refine the highest-priority `status:refining` one with `xp-refine` (in interview mode, propose it). If nothing can move without a human, say so; in autopilot `xp-run` then writes the run report.
 
 ## Rules
 

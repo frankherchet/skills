@@ -1,8 +1,8 @@
 ---
 name: xp-implement
-description: Build a ready feature issue test-first, one criterion at a time. An acceptance test per criterion comes first, then small red-green-refactor steps inside it, preferring reuse over new code; every test names its criterion ID. Use when the user says "implement #12", "build this feature", "TDD this", or when xp-issues routes a type:feature issue. Comes after xp-issues; hands over to xp-ship.
+description: Build a ready feature issue test-first with one acceptance test per criterion, small steps and reuse before new code. Use for "implement issue 12", "build this feature", "TDD this", or a ready type:feature issue.
 metadata:
-  version: "0.3.1"
+  version: "0.4.0"
   source: frankherchet/skills
 ---
 
@@ -14,25 +14,24 @@ Build exactly what the criteria ask for, test first, with as little new code as 
 
 ## Before you start
 
-1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. Read the issue, its `Requirements:` line and those criteria in the requirements file. If the criteria only exist in a trusted refinement block, write them into the requirements file first (next free IDs). If the issue does not meet the Definition of Ready, run `xp-refine` on it first (in interview mode, propose it).
-3. Check that the issue is `status:in-progress` and assigned, and work on a branch: `git switch -c <n>-<short-slug>`. In headless mode the runner has already prepared the worktree and owns all git and GitHub steps.
-4. Run the full test suite. If it is already red, the default branch is broken: put the issue back to `status:ready` and fix the default branch first with `xp-bugfix` ("Fix the default branch first" in AGENTS.md).
+1. Follow `## XP Workflow` in `AGENTS.md`. Most hosts have loaded the file already; read it only if the section is not in your context. If the section does not exist, run `xp-setup` first.
+2. Read the issue and its `Requirements:` line, and look those criteria up by ID in the requirements file (do not read the whole file). If the criteria only exist in a refinement block (an issue comment starting with `<!-- xp:refinement -->` from a trusted account), write them into the requirements file first, with the next free IDs and status `accepted`. If the issue does not meet the Definition of Ready, run `xp-refine` on it first (in interview mode, propose it).
+3. Check that the issue is `status:in-progress` and assigned, and work on its branch. `git fetch origin`, then `git switch <n>-<short-slug> && git merge origin/<default>` if `xp-refine` already created the branch, otherwise `git switch -c <n>-<short-slug> origin/<default>`. In headless mode the runner has already prepared the worktree and owns all git and GitHub steps.
+4. Make sure the default branch is green: its latest CI run (`gh run list --branch <default> --limit 1`), or without CI one run of the test command before your first change. If it is red, put the issue back to `status:ready` and fix the default branch first with `xp-bugfix` ("Fix the default branch first" in AGENTS.md).
 5. Read the code the issue touches and follow one real request or call through it. Knowing where a change belongs matters more than how small it is.
 
 ## Build one criterion at a time
 
-**Outer loop: the acceptance test.** For the next criterion `REQ-NNN.N`:
-1. Write one test at the level a user or caller sees: an HTTP request, a CLI call, a public API, or a UI test if the project has them. The criterion ID goes into the test name, or into a comment right above it if names cannot hold it:
+For the next criterion `REQ-NNN.N`:
+
+1. **Acceptance test.** Write one test at the level a user or caller sees: an HTTP request, a CLI call, a public API, or a UI test if the project has them. The criterion ID goes into the test name, or into a comment right above it if names cannot hold it:
    `test("REQ-012.1 link expires after 15 minutes", …)`
-2. Run it and see it fail for the right reason: a failed assertion, not an import or syntax error. It stays red while the inner loop runs.
+2. **See it fail** for the right reason: a failed assertion, not an import or syntax error. Run only this test.
+3. **Make it pass** with as little new code as possible (see "Reuse before you write"). If one small change does it, make it. If not, take small steps: a unit test for the next bit of behavior (red), the code for it (green), and again until the acceptance test passes. Run only the tests you are working on.
+4. **Refactor.** Remove duplication and overbuilding, improve names, keep the tests green. No new behavior.
+5. Run the test files you touched and commit: `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`.
 
-**Inner loop: small steps** until the acceptance test passes:
-1. **Red.** Write the smallest unit test for the next bit of behavior. See it fail.
-2. **Green.** Make it pass with as little new code as possible (see "Reuse before you write").
-3. **Refactor.** Remove duplication and overbuilding, improve names, keep every test green. No new behavior.
-
-When the acceptance test passes, run the full suite and commit: `git commit -m "<what> (Refs #<n>, REQ-NNN.N)"`. Then take the next criterion. If a criterion is so small that its acceptance test is already a unit test, the loops merge into one.
+After the last criterion, run the full suite once. `xp-ship` does not repeat it for the same commit.
 
 ## Reuse before you write
 

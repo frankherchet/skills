@@ -1,8 +1,8 @@
 ---
 name: xp-retro
-description: Look back after a milestone, epic or bugfix has shipped. Collects evidence from issues, PRs, commits and sessions, sorts it into what went well, what went badly and what to improve, and turns at most three improvements into real changes, such as AGENTS.md rules, memento memos, project issues or issues against the xp-* skills in frankherchet/skills. Use when the user says "retro", "retrospective", "lessons learned", "what can we improve", or when xp-ship suggests it. Last skill of the xp loop; hands over to xp-issues.
+description: Look back after shipped work. Collects evidence, names what went well and badly, and turns at most three improvements into rules, memos or issues. Use for "retro", "lessons learned", "what can we improve", or after a milestone, epic, run or bugfix shipped.
 metadata:
-  version: "0.3.1"
+  version: "0.4.0"
   source: frankherchet/skills
 ---
 
@@ -14,8 +14,8 @@ Each shipped piece of work should make the next one easier, including the workfl
 
 ## Before you start
 
-1. Read `## XP Workflow` in `AGENTS.md`. If it is missing, run `xp-setup` first.
-2. Settle the scope: a milestone, an epic or a single bug, as named by the user or the `xp-ship` hand-over. Ask only if neither names one.
+1. Follow `## XP Workflow` in `AGENTS.md`. Most hosts have loaded the file already; read it only if the section is not in your context. If the section does not exist, run `xp-setup` first.
+2. Settle the scope: a milestone, an epic, a single bug or a whole run, as named by the user, the `xp-ship` hand-over or `xp-run`. Ask only if none of them names one.
 3. Use the default mode from AGENTS.md unless the user asks for another.
 
 ## 1. Collect evidence
@@ -53,11 +53,11 @@ gh issue create --repo frankherchet/skills --title "xp-<skill>: <problem>" --lab
 ```
 Leave out `--label` if the label does not exist there.
 
-In autopilot mode, AGENTS.md edits and skills-repo issues are not applied. Put them into the record (step 4) as proposals and add the decision label to the epic or bug issue (for a milestone, list them under "Waiting on a human" in the hand-over); memos and project issues are created right away.
+In autopilot mode, AGENTS.md edits and skills-repo issues are not applied. Put them into the record (step 4) as proposals, each with the exact change, and list them under "Waiting on a human" in the hand-over; memos and project issues are created right away.
 
 ## 4. Record
 
-Write the three lists and links to the changes in under 20 lines, where the scope lives: a comment on the epic or bug issue, or for a milestone appended to its description (`gh api -X PATCH repos/{owner}/{repo}/milestones/<number> -f description="…"`).
+Write the three lists and links to the changes in under 20 lines, where the scope lives: a comment on the epic or bug issue, or for a milestone appended to its description (`gh api -X PATCH repos/{owner}/{repo}/milestones/<number> -f description="…"`). A run is looked at as a whole: one record, on the epic or milestone the run worked on, or without one on the last issue it closed.
 
 ## Hand-over
 
