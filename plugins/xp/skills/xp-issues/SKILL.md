@@ -2,7 +2,7 @@
 name: xp-issues
 description: Plan and steer work with GitHub Issues. Creates milestones, epics, features, bugs and spikes, triages, reports status, picks up answers to parked questions, and picks and routes the next issue. Use for planning, filing a bug or feature, backlog triage, "what's next" or milestone status.
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
   source: frankherchet/skills
 ---
 

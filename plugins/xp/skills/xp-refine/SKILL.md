@@ -2,7 +2,7 @@
 name: xp-refine
 description: Make issues ready to build. Works out stakeholder interests and failure conditions, writes testable criteria into the requirements file, maps epics, and runs spikes that end in an ADR. Use for "refine", "groom the backlog", "write acceptance criteria", "spike", or a status:refining issue.
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
   source: frankherchet/skills
 ---
 

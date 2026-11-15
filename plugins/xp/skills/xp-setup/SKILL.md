@@ -2,7 +2,7 @@
 name: xp-setup
 description: Set up or update a project for the issue-driven XP workflow. Writes the "## XP Workflow" section into AGENTS.md, creates the labels and adds the requirements file. Use for "set up xp", "configure the workflow", or when another xp-* skill finds no "## XP Workflow" section.
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
   source: frankherchet/skills
 ---
 
@@ -26,7 +26,7 @@ One batch, not ten questions. Work out a proposed answer for every topic from wh
 2. **Build and CI:** the command that builds and runs all tests, the lint command, and whether CI runs them on every push and PR. Time one run. Over 10 minutes is worth fixing first, because every later skill depends on quick feedback. Without CI, offer a minimal workflow; if the user declines, the skills run the tests locally instead.
 3. **Labels:** the default table in [references/labels.md](references/labels.md), or a mapping onto existing labels that mean the same. Never create duplicates, and never rename labels other tools (bots, automations) depend on; add the xp labels next to them. If the project already has a label for "waiting on a human decision", use it as the decision label.
 4. **Definition of Ready and Done:** the template defaults plus project-specific items. An existing Definition of Done is merged in, not replaced.
-5. **Merge policy:** default `agent`: the agent merges after `xp-ship` passes and an independent review approves, which is what lets `xp-run` go from kickoff to run report. Choose `human` if every PR needs a human review. Ask for the merge command (default `gh pr merge <n> --squash --delete-branch`), and make sure the agent's permission settings allow it. Protected paths an unattended agent never merges: default `.github/`, deployment configuration, dependency manifests and lockfiles.
+5. **Merge policy:** default `agent`: the agent merges after `xp-ship` passes and an independent review approves, which is what lets `xp-run` go from kickoff to run report. Choose `human` if every PR needs a human review. Ask for the merge command (default `gh pr merge <n> --squash --delete-branch`), and make sure the agent's permission settings allow it. Protected paths an unattended agent never merges: default `.github/`, deployment configuration, dependency manifests and lockfiles. Skipped CI checks: default none are accepted; list a check only if the project already skips it on purpose (for example a path-filtered job), with the exact condition under which skipping is correct. Never invent this policy; if the CI config alone does not show it, leave it at none.
 6. **Human gates:** the fixed gates in the template plus any the user adds, and the trusted accounts whose issue comments count as decisions (default: the account `gh api user --jq .login` returns).
 7. **Default mode:** `autopilot`: a human approves the kickoff and answers the run report, and the loop runs on its own in between. `interview` if the user wants to be asked along the way. Default: `autopilot`.
 8. **Architecture:** if the project already describes its architecture (for example in CLAUDE.md or docs), point to that document. Otherwise draft a short overview of components, boundaries and key technologies from the code.

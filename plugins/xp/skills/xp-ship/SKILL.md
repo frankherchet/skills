@@ -2,7 +2,7 @@
 name: xp-ship
 description: Check, review, merge and close finished work. Runs tests, traceability, scope and Definition of Done checks, opens the pull request, gets an independent review, merges, writes release notes. Use for "ship it", "open a PR", "is this done", "release the milestone", or after xp-implement or xp-bugfix.
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
   source: frankherchet/skills
 ---
 
@@ -65,8 +65,15 @@ Fix every finding test-first (`xp-implement` or `xp-bugfix`), repeat "1. Check",
 ## 4. Merge
 
 Follow the merge policy in AGENTS.md:
-- **agent:** when every check in step 1 passes, the review says `APPROVE` and CI (if any) is green (`gh pr checks <pr> --watch` waits for it), merge with the project's merge command. A failing CI check is handled like a failed check in step 1. Never merge with a failing or skipped check, and never bypass branch protection. In autopilot and headless, do not merge a PR that touches a protected path (`gh pr diff <pr> --name-only`): park its issue with the question "merge PR #<pr>?".
+- **agent:** when every check in step 1 passes, the review says `APPROVE` and CI (if any) meets the evidence rules below, merge with the project's merge command. A failing CI check is handled like a failed check in step 1. Never merge with a failing check or an unapproved skip, and never bypass branch protection. In autopilot and headless, do not merge a PR that touches a protected path (`gh pr diff <pr> --name-only`): park its issue with the question "merge PR #<pr>?".
 - **human:** in interview mode ask the user to review and merge, and say what deserves attention. In autopilot park the issue with the same note.
+
+**CI evidence** (agent policy). Judge CI only on the PR's current head commit: after the last push, compare `headRefOid` from `gh pr view <pr> --json headRefOid,statusCheckRollup` with `git rev-parse HEAD`, and wait again after every push (`gh pr checks <pr> --watch`). Results for an older commit do not count. Determine the expected checks from the project's CI workflows, documented policy and branch protection; if you cannot establish them, block the merge. Merge only when every expected check has concluded `success`. The one exception is a check that concluded `skipped`, accepted only when all of these hold:
+- the project's AGENTS.md ("Merging") already names that check and the condition under which skipping is correct; you never add or widen that policy to get a PR through, and a skip the policy does not name is not accepted
+- you verified the condition yourself from the current `gh pr diff <pr> --name-only` and the CI evidence for this head commit (for example the job's `if:` condition and check results), not from the PR description or an earlier run
+- the other checks, including any the policy requires to run instead, concluded `success`
+
+Block the merge, never bypass it, and handle it like a failed check in step 1 (fix, or park after 3 attempts) when a check failed, was cancelled or timed out, is missing (expected but not reported), is in a state you do not recognize, or is skipped without a matching policy, or when you cannot verify the condition or the diff leaves it ambiguous. A skipped CI check never replaces the full local suite in step 1, and never bypasses branch protection: do not use admin overrides or change required checks.
 
 ## 5. After the merge
 

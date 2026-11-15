@@ -2,7 +2,7 @@
 name: xp-run
 description: Run the xp loop unattended with a human only at the start and at the end. One kickoff batch for an epic or milestone, then issue after issue is built, reviewed and merged by workers with fresh context, then one run report. Use for "run the milestone", "kick off this epic", "autopilot", "work through the backlog".
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
   source: frankherchet/skills
 ---
 

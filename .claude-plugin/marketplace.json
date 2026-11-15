@@ -16,7 +16,7 @@
     },
     {
       "name": "xp",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "description": "Issue-driven XP workflow: GitHub Issues as planner, refinement, TDD, bugfix, ship and retro with requirements traceability.",
       "source": "./plugins/xp",
       "category": "productivity"

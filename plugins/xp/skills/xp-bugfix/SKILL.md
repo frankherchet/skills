@@ -2,7 +2,7 @@
 name: xp-bugfix
 description: Fix a bug so it stays fixed. Reproduce it with a failing test, fix the cause, look for the same mistake elsewhere and name the process gap. Use for bug reports, errors, regressions, "fix issue 12" on a type:bug issue, or a red default branch.
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
   source: frankherchet/skills
 ---
 

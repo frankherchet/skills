@@ -39,6 +39,7 @@ Every xp-* skill ends with these three lines and no other closing summary; detai
 - Policy: `<agent>`. **agent:** the agent merges its own PR once every check in `xp-ship` passes, the review approves and CI (if any) is green. **human:** a human reviews and merges.
 - Command: `<gh pr merge <n> --squash --delete-branch>`
 - Protected paths: `<.github/, deploy/, dependency manifests and lockfiles>`. In autopilot and headless the agent never merges a PR that touches them; it parks the PR's issue.
+- Skipped CI checks: `<none>`. Only a check listed here with the condition under which skipping is correct may be accepted as skipped; `xp-ship` verifies the condition against the PR's diff and CI.
 
 ### Human gates
 Only a human decides to:
