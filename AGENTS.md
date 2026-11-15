@@ -29,7 +29,7 @@ tests/                             # node:test, run with `npm test`
    - Detect the host by environment: `COPILOT_PLUGIN_DATA` means Copilot, which expects `{"additionalContext": …}`. Otherwise it is Claude or Codex, which expect `{"hookSpecificOutput": {"hookEventName": …, "additionalContext": …}}`.
    - Hooks must never fail a session: catch everything and exit 0.
 5. Add tests under `tests/` that simulate each host's environment. Run `npm test`.
-6. Bump `version` in all three manifests and in every SKILL.md (`metadata.version`) when behavior changes. Projects that vendor a skill (`npx skills add`) can then tell which version their copy is based on, so local improvements can be merged back.
+6. Bump `version` in all three manifests, in the plugin's entry in `.claude-plugin/marketplace.json` (the Claude catalog needs an explicit version, otherwise `omp plugin upgrade` without a name does not detect the update) and in every SKILL.md (`metadata.version`) when behavior changes. Projects that vendor a skill (`npx skills add`) can then tell which version their copy is based on, so local improvements can be merged back.
 
 ## Conventions
 

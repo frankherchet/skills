@@ -27,6 +27,13 @@ for (const plugin of plugins) {
     }
   });
 
+  test(`${plugin}: Claude marketplace entry carries the plugin manifest version`, () => {
+    const entry = json('.claude-plugin/marketplace.json').plugins.find((p) => p.name === plugin);
+    const { version } = json(`plugins/${plugin}/.claude-plugin/plugin.json`);
+    assert.ok(entry.version, `${plugin}: .claude-plugin/marketplace.json entry has no explicit version; omp plugin upgrade skips such entries`);
+    assert.strictEqual(entry.version, version, `${plugin}: marketplace version must match plugin manifests`);
+  });
+
   test(`${plugin}: every skill has name, description and the plugin version`, () => {
     const dir = path.join(ROOT, 'plugins', plugin, 'skills');
     for (const skill of fs.readdirSync(dir)) {
