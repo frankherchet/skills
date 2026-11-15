@@ -2,7 +2,7 @@
 name: xp-issues
 description: Plan and steer work with GitHub Issues. Creates milestones, epics, features, bugs and spikes, triages, reports status, picks up answers to parked questions, and picks and routes the next issue. Use for planning, filing a bug or feature, backlog triage, "what's next" or milestone status.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 
@@ -68,6 +68,7 @@ An issue under the decision label waits for a human (Human gates in AGENTS.md). 
 3. Apply the answer and remove the decision label:
    - a kickoff approval: "Approval" in `xp-run`
    - accepted criteria: set those requirements to `accepted` on the issue's branch, then check the Definition of Ready
+   - an answer to a spike's criteria conflict: record the approved amendment in the issue, then run the spike from the dry run on ("Spike" in `xp-refine`)
    - an accepted ADR: set its status to `accepted`, update the issues that depend on it and close the spike
    - anything else: do what the answer says and leave the issue in the status it has
 4. No answer: leave it parked.

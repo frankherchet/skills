@@ -2,7 +2,7 @@
 name: xp-setup
 description: Set up or update a project for the issue-driven XP workflow. Writes the "## XP Workflow" section into AGENTS.md, creates the labels and adds the requirements file. Use for "set up xp", "configure the workflow", or when another xp-* skill finds no "## XP Workflow" section.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 

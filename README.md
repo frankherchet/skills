@@ -73,7 +73,7 @@ xp-setup → xp-issues → xp-refine → xp-implement ─┐
 | `xp-setup` | Once per project: configures the `## XP Workflow` section in AGENTS.md, creates labels, and adds the requirements file and its schema |
 | `xp-run` | Drives an unattended run from a human-approved kickoff through fresh workers, independent review and a run report |
 | `xp-issues` | Plans milestones, epics and issues at the right goal level, triages, reports status, picks the next issue (a red default branch always comes first) |
-| `xp-refine` | Makes an issue ready: interests, failure conditions, then criteria; goal maps for epics; spikes that end in an ADR |
+| `xp-refine` | Makes an issue ready: interests, failure conditions, then criteria; goal maps for epics; spikes that dry-run their criteria first and end in an ADR with measurements, verdict and uncertainty kept apart |
 | `xp-implement` | Builds a feature test-first: an acceptance test per criterion, optional small unit-test steps, and reuse before new code |
 | `xp-bugfix` | Reproduces a bug with a test, fixes the cause, looks for the same mistake elsewhere, names the process gap |
 | `xp-ship` | Checks readiness to merge, opens the PR, obtains an independent review for agent merges, and handles protected paths and release notes |

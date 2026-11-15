@@ -36,3 +36,5 @@ tests/                             # node:test, run with `npm test`
 - Skill and plugin content is written in English.
 - Keep SKILL.md focused and put details in `references/`.
 - No runtime dependencies in hooks. Plain Node only, which all three hosts can run.
+
+Project memos live in .memento/ — read .memento/INDEX.md at session start (memento skill).

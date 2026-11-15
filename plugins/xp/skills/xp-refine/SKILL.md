@@ -2,7 +2,7 @@
 name: xp-refine
 description: Make issues ready to build. Works out stakeholder interests and failure conditions, writes testable criteria into the requirements file, maps epics, and runs spikes that end in an ADR. Use for "refine", "groom the backlog", "write acceptance criteria", "spike", or a status:refining issue.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 
@@ -59,9 +59,15 @@ Steps to reproduce, expected and actual behavior, and the affected criteria if a
 ## Spike
 
 For `type:spike` or an open technical question:
-1. Write the question and a timebox (default: one session) into the issue.
-2. Investigate: docs, code, and if needed a throwaway prototype outside `src/` that is never merged.
-3. Record the answer as an ADR in `docs/adr/NNNN-kebab-title.md`:
+1. Write the question, a timebox (default: one session) and the success and failure criteria into the issue before you investigate: for each option or hypothesis, which observation confirms it, which refutes it, and what counts as inconclusive. Criteria that a human approved (in a kickoff, or in a comment from a trusted account) are fixed: you may not weaken, drop or reinterpret them.
+2. **Dry-run the criteria** before any measurement. Walk each criterion through the prompts, commands and inputs the spike will use, its preconditions (data, environment, state) and the observations you expect, on paper. Look for:
+   - a criterion no available observation can decide, or one that holds and fails at once
+   - two criteria that contradict each other
+   - a prompt or precondition that already forces or rules out the expected observation
+
+   A contradiction is never resolved by quietly changing a criterion, a prompt or a precondition, and never by picking the reading that gives an answer. Interview mode: show it with a proposed amendment, ask, and wait for the answer. Autopilot: park the spike with the contradiction and a proposed amendment as an issue comment, and do not start the affected part; in a kickoff (`xp-run`) the question goes into the kickoff packet instead. The amendment counts only after a human approved it. Without contradictions, note "dry run: no conflicts" in the issue and go on.
+3. Investigate: docs, code, and if needed a throwaway prototype outside `src/` that is never merged. Write down raw measurements as you take them, with the exact command or input, and do not interpret them yet.
+4. Record the answer as an ADR in `docs/adr/NNNN-kebab-title.md`. Keep measurements, verdicts and doubts in separate sections:
    ```markdown
    # NNNN. Title
    Date: YYYY-MM-DD
@@ -69,11 +75,18 @@ For `type:spike` or an open technical question:
 
    ## Context
    ## Options considered
+   ## Measurements
+   what was observed, with command or input; no judgment
+   ## Criteria verdict
+   one line per predeclared criterion: met | not met | inconclusive, naming the measurements it rests on
+   ## Uncertainty
+   unresolved contradictions, criteria amended and who approved it, what was not measured, and every cause that is only inferred
    ## Decision
    ## Consequences
    ```
-4. Accepting the ADR is a human decision: in a kickoff it is part of the approval, otherwise park the spike. Afterwards, update the issues that depend on it and close the spike.
-5. Link files in issue and PR comments on the default branch (`blob/<default>/<path>`), never on the spike branch: it is deleted on merge. If the file is not on the default branch yet, name the path without a link or comment after the merge.
+   The verdict follows the criteria as approved. A cause that existing evidence (logs, earlier reports, code reading) only suggests is unproven: write it as a hypothesis and name the experiment that would test it, until a measurement isolates it. If a criterion is inconclusive or a contradiction is unresolved, the ADR says so and does not decide on it.
+5. Accepting the ADR is a human decision: in a kickoff it is part of the approval, otherwise park the spike. Afterwards, update the issues that depend on it and close the spike.
+6. Link files in issue and PR comments on the default branch (`blob/<default>/<path>`), never on the spike branch: it is deleted on merge. If the file is not on the default branch yet, name the path without a link or comment after the merge.
 
 ## Hand-over
 

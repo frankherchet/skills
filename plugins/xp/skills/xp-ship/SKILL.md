@@ -2,7 +2,7 @@
 name: xp-ship
 description: Check, review, merge and close finished work. Runs tests, traceability, scope and Definition of Done checks, opens the pull request, gets an independent review, merges, writes release notes. Use for "ship it", "open a PR", "is this done", "release the milestone", or after xp-implement or xp-bugfix.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 

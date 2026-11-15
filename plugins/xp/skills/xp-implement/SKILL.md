@@ -2,7 +2,7 @@
 name: xp-implement
 description: Build a ready feature issue test-first with one acceptance test per criterion, small steps and reuse before new code. Use for "implement issue 12", "build this feature", "TDD this", or a ready type:feature issue.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 

@@ -2,7 +2,7 @@
 name: xp-retro
 description: Look back after shipped work. Collects evidence, names what went well and badly, and turns at most three improvements into rules, memos or issues. Use for "retro", "lessons learned", "what can we improve", or after a milestone, epic, run or bugfix shipped.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 

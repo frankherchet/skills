@@ -2,7 +2,7 @@
 name: xp-run
 description: Run the xp loop unattended with a human only at the start and at the end. One kickoff batch for an epic or milestone, then issue after issue is built, reviewed and merged by workers with fresh context, then one run report. Use for "run the milestone", "kick off this epic", "autopilot", "work through the backlog".
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: frankherchet/skills
 ---
 
@@ -44,7 +44,7 @@ One batch of work, then one batch of questions. Nothing is asked before every st
 
 1. **Plan.** With `xp-issues`, make sure the milestone and its epics exist. With `xp-refine` ("Refine an epic or milestone"), draw the goal map and create the missing feature issues.
 2. **Branch:** `git fetch origin && git switch -c kickoff-<short-slug> origin/<default>`.
-3. **Refine every child** with `xp-refine`, in priority order. Criteria go into the requirements file as `draft`. Answer open technical questions with a spike now; its ADR stays `proposed`. Collect every question only a human can answer, each with a proposed answer.
+3. **Refine every child** with `xp-refine`, in priority order. Criteria go into the requirements file as `draft`. Answer open technical questions with a spike now, after its dry run of the criteria; a conflict found there is a question in the packet, never a quiet change; its ADR stays `proposed`. Collect every question only a human can answer, each with a proposed answer.
 4. **Kickoff PR:** commit (`Kickoff: <scope title>`), push, and open a draft PR: `gh pr create --draft --base <default> --title "Kickoff: <scope title>" --body "<one line per epic>"`. Its diff is what the human approves.
 5. **Kickoff packet:** post it as a comment on each epic and park the epic:
    ```markdown
