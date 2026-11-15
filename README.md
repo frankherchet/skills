@@ -1,6 +1,6 @@
 # frank-skills
 
-Personal skills, plugins and agents that work in **Claude Code**, **OpenAI Codex CLI** and **GitHub Copilot CLI**.
+Personal skills, plugins and agents that work in **OMP**, **Claude Code**, **OpenAI Codex CLI** and **GitHub Copilot CLI**.
 
 ## Plugins
 
@@ -10,6 +10,21 @@ Personal skills, plugins and agents that work in **Claude Code**, **OpenAI Codex
 | [xp](plugins/xp/skills/) | Issue-driven XP workflow: kickoff approval, autonomous issue-by-issue implementation and independent review, requirements traceability, and a run report. |
 
 ## Install
+
+### OMP
+
+```bash
+omp plugin marketplace add frankherchet/skills
+omp plugin install memento@frank-skills
+omp plugin install xp@frank-skills
+```
+
+To update installed plugins:
+
+```bash
+omp plugin marketplace update frank-skills
+omp plugin upgrade
+```
 
 ### Claude Code
 
